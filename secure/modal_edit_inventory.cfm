@@ -8,9 +8,9 @@
 		<cfset Session.Edit_Inventory_Modal_Status = 10>
 	</cfif>	
 
-	<cfif Not IsDefined("url.id")>
-		<cfset GoodData = 0>
-	<cfelse>
+	<CFPARAM NAME = "Session.Edit_Inventory_ID" default="0">
+
+	<cfif IsDefined("url.id")>
 		<cfset GoodData = 1>
 		<cfset Session.Edit_Inventory_ID = Trim(url.id)>
 		<cfquery name="get_inventory" datasource="#DSN#">
@@ -36,7 +36,7 @@
 		</cfif>
 	</cfif>
 
-	<cfif Not GoodData>
+	<cfif Session.Edit_Inventory_ID EQ 0>
 		<cfset Session.Edit_Inventory_Modal_Status = 99>		
 	</cfif>	
 
@@ -225,6 +225,10 @@
 					<cfif Session.Edit_Inventory_Modal_Status EQ 10>										
 						<cfset Session.Edit_Inventory_Modal_Status = 0>
 
+						<cfset Session.is_pre_inventory = 0>	
+						<cfset Session.is_purchased = 0>
+						<cfset Session.is_propagated = 0>
+
 						<cfif IsDefined("form.is_pre_inventory")>
 							<cfset Session.is_pre_inventory = 1>
 						</cfif>
@@ -240,13 +244,13 @@
 						<cfset Session.shipping = Trim(form.shipping)>
 						<cfset Session.category = Trim(form.category)>
 
-						<!--- Insert inventory --->
-						<cfset Session.db_uuid = rereplace(createuuid(),"-","","all")>
-						<cfquery name="insert_inventory" datasource="#DSN#">
-							insert into inventory 
-							(id, category_id, is_pre_inventory, is_purchased, is_propagated, on_hand_qty, plant_cost, shipping_cost, created_date)
-							values 
-							('#Session.db_uuid#', '#Session.category#', '#Session.is_pre_inventory#', '#Session.is_purchased#', '#Session.is_propagated#', '#Session.quantity#', '#Session.cost#', '#Session.shipping#','#Session.DateNow#')
+						<!--- Update inventory --->
+						
+						<cfquery name="update_inventory" datasource="#DSN#">
+							update inventory 
+							set category_id = '#Session.category#', is_pre_inventory = '#Session.is_pre_inventory#', is_purchased = '#Session.is_purchased#', is_propagated = '#Session.is_propagated#', 
+							on_hand_qty = '#Session.quantity#', plant_cost = '#Session.cost#', shipping_cost = '#Session.shipping#'
+							where id = <cfqueryparam value="#Session.Edit_Inventory_ID#" cfsqltype="cf_sql_longvarchar" >
 						</cfquery>
 
 						<div class="row">			
@@ -266,10 +270,10 @@
 						</div>
 
 						<div class="content-wrap">							
-								<button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="##edit_inventory_modal"  data-bs-dismiss="modal">
-									Close
-								</button>
-							</div>
+							<button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="##edit_inventory_modal"  data-bs-dismiss="modal">
+								Close
+							</button>
+						</div>
 						
 					</cfif>
 
