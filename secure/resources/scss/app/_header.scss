@@ -1,0 +1,255 @@
+// HEADER STYLES
+
+html {
+    position: relative;
+    min-height: 100%;
+    min-width: 100%;
+} 
+
+body {
+    margin: 0 0 130px;
+    background: #f7f7f7;
+}
+
+.ui-widget {font-family: 'Proxima-Nova', Helvetica, Arial, Lucida Grande, Lucida Sans, sans-serif!important;}
+
+a {
+	color:$brand-primary;
+	transition: all 0.3s ease 0s;
+	&:hover {
+		color:$brand-secondary;
+	}
+}
+
+.btn {
+	transition: all 0.3s ease 0s;
+}
+
+header {
+	background: #ffffff;
+	text-align: center;
+	box-shadow: 0px 0px 5px 1px rgba(84, 84, 84, .15);
+	@media (min-width: $screen-sm-min) {
+		text-align: left;
+	}
+	
+	.navbar-brand {
+		height:auto;
+		padding:5px 0;
+		float:none;
+		width:100%;
+		text-align: center;
+		@media (min-width: $screen-sm-min) {
+			float:left;
+			width: auto;
+			text-align: left;
+		}
+
+		img {
+			margin:0 auto;
+			@media (min-width: $screen-sm-min) {margin:0;}
+		}
+	}
+
+	.app-title {
+		width:53%;
+		float:left;
+		text-align: center;
+		margin-top:15px;
+		font-size:2em;
+
+		@media (min-width: $screen-md-min) {
+			width:80%;
+		}
+	}
+
+	&.home {
+		border-bottom: solid 5px $brand-secondary;
+	}
+
+	.dropdown-toggle {
+		padding:0px!important;
+	}
+
+	.icon-menu {
+		font-size: 3.5em;
+	    line-height: 40px;
+	    padding: 12px 0 5px 0;
+	    display: block;
+	}
+
+	.container {position: relative;}
+}
+
+.user-name {
+	position: absolute;
+	right:55px;
+	top:12px;
+	color:$brand-primary;
+	font-size: 0.85em;	
+	text-align: right;
+
+	.icon-user {font-size: 1.6em!important; position: relative; top:4px;}
+}
+
+
+.navbar {
+	background: $brand-primary;
+	color:#fff;
+	min-height:10px;
+	border-radius: 0px;
+	margin-bottom:0px;
+
+	h2 {
+		color:#fff;
+		font-weight: normal;
+		font-size:1.2em;
+		margin:0px;
+		float:left;
+		line-height: 30px;
+	}
+
+	li {
+		a {padding:5px; color:#fff;
+			&:hover {
+				background: transparent;
+				color:#fff;
+				text-decoration: underline;
+			}
+		}
+	}
+
+}
+
+.dropdown-menu {
+	min-width:200px;
+	background: #ffffff;
+	border-radius: 0px;
+	top:75px;
+
+	li { color:$brand-primary; 
+		a {
+			color:$brand-primary;
+			padding:5px 10px;
+			font-weight: bold;
+
+			&.active {font-weight: bold; background:#e2e2e2;}
+		}
+
+		span {
+			color: #002855;
+		    padding: 5px 10px;
+		    display: block;
+		    opacity: 0.5;
+		}
+	}
+
+	&:after, &:before {
+		bottom: 100%;
+		right:10px;
+		border: solid transparent;
+		content: " ";
+		height: 0;
+		width: 0;
+		position: absolute;
+		pointer-events: none;
+	}
+
+	&:after {
+		border-color: rgba(255, 255, 255, 0);
+		border-bottom-color: #ffffff;
+		border-width: 10px;
+		margin-left: -10px;
+	}
+	&:before {
+		border-color: rgba(204, 204, 204, 0);
+		border-bottom-color: #ccc;
+		border-width: 12px;
+		margin-left: -10px;
+		right:8px;
+	}
+}
+
+.menu-icon {
+	@extend .glyphicon;
+	&:before {
+		content: "\e236";
+		font-size: 2em;
+	}
+}
+
+.nav {
+	.open {
+		a, a:hover, a:focus {background:transparent; border-color:transparent;}
+	}
+}
+
+.subnav {
+	background: $brand-primary;
+
+	ul {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		@include clearfix;
+
+		li {
+			float:left;
+			&.active {color:$brand-gold; font-weight: bold; padding:5px; font-size: 0.95em;
+				&:after {
+					content: "/";
+					padding:0 5px 0 15px;
+					color:#ffffff;
+					font-weight: normal;
+				}
+			}
+
+			a {
+				padding:5px;
+				display: block;
+				font-size: 0.95em;
+				color:#ffffff;
+				&.active {
+					font-weight: bold;
+					color:#F5C000;
+				}
+
+				&:after {
+					content: "/";
+					padding:0 5px 0 15px;
+					color:#ffffff;
+					font-weight: normal;
+				}
+
+				&:hover {color:#F5C000; text-decoration: none;
+					&:after {
+						color:#ffffff;
+						text-decoration: none;
+					}
+				}
+				&:active {
+					&:after {
+						color:#ffffff;
+						text-decoration: none;
+					}
+				}
+			}
+
+			&:last-child {
+				a {
+					&:after {content:"";}
+				}
+					
+			}
+
+			span {
+				padding: 5px 15px;
+			    display: block;
+			    font-size: 0.95em;
+			    opacity: 0.5;
+			    color: #002855;
+			}
+		}
+	}
+}
+

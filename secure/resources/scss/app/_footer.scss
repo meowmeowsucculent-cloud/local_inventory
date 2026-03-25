@@ -1,0 +1,29 @@
+//FOOTER STYLES
+
+footer {
+	text-align: center;
+	color:#545454;
+	padding:20px 0;
+	margin-top:40px;
+	position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 130px;
+    width: 100%;
+    font-size: 0.9em;
+
+	a {
+		color:$brand-secondary;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	.container {
+		border-top:solid 1px #d2d2d2;
+		padding-top:20px;
+	}
+
+	p {margin-bottom:5px;}
+}

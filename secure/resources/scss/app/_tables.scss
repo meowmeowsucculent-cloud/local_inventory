@@ -1,0 +1,258 @@
+// Table Styles
+
+.styled {
+	width:100%;
+	margin-top:20px;
+	background: #ffffff;
+	box-shadow: 0px 0px 5px 1px rgba(84, 84, 84, .15);
+	clear:both;
+
+	th {
+		background: #ffffff;
+		border-bottom: solid 1px #e1e5e9;
+		color:$brand-primary;
+		font-size: 1em;
+		padding:15px 10px;
+		text-align: left;
+		white-space: nowrap;
+
+		&.centered, &.align-center {
+			text-align: center;
+		}
+
+		&.action {
+			text-align: center!important;
+		}
+		&.status {
+			text-align: center!important;
+		}
+	}
+
+	td {
+		border-bottom: solid 1px #e1e5e9;
+		padding: 5px 10px;
+		color: #333;
+		font-size: 1em;
+
+		&.action {
+			text-align: center!important;
+			padding:0px;
+			.btn {
+				margin:0 2px!important;
+			}
+
+			table {
+				width:100%;
+				td {
+					padding:0px!important;
+					border:0px;
+					width:33%;
+				}
+			}
+		}
+
+		&.status {
+			text-align: center!important;
+
+			.btn {
+				float:none!important;
+			}
+
+			.active-btn {
+			    cursor: not-allowed;
+			    background: none!important;
+			    border: none!important;
+			    color: #333333!important;
+			}
+		}
+
+		a {text-decoration: underline;}
+	}
+
+	tr:last-of-type {
+		td {border-bottom:0;}
+	}
+
+	.btn {
+		font-size: 0.9em;
+		text-decoration: none;
+		&.edit {
+			&:before {
+				@extend .glyphicon;
+				content: "\270f";
+				margin-right:5px;
+			}
+		}
+		&.delete {
+			&:before {
+				@extend .glyphicon;
+				content: "\e020";
+				margin-right:5px;
+			}
+		}
+		&.copy {
+			&:before {
+				@extend .glyphicon;
+				content: "\e224";
+				margin-right:5px;
+			}
+		}
+		&.view {
+			&:before {
+				@extend .glyphicon;
+				content: "\e022";
+				margin-right:5px;
+			}
+		}
+		&.profile {
+			&:before {
+				@extend .glyphicon;
+				content: "\e008";
+				margin-right:5px;
+			}
+		}
+	}
+
+	.ui-datatable-tablewrapper {
+	    width: 100%;
+	 }
+
+	 .ui-button .ui-button-text {display:inline-block;}
+
+	 .content-wrap & {box-shadow:none;}
+}
+
+.display-results {
+	float:right;
+	margin:10px 0;
+	@include clearfix();
+	span {font-weight: bold; margin:0 3px;}
+	a {font-weight: normal;}
+
+	.active {text-decoration:none; font-weight:bold;}
+}
+
+.ui-datatable {
+	&.styled {
+		width:100%;
+		margin-top:20px;
+		background: #ffffff;
+		box-shadow: 0px 0px 5px 1px rgba(84, 84, 84, .15);
+		clear:both;
+
+		th {
+			background: #ffffff;
+			border-bottom: solid 1px #e1e5e9;
+			color:$brand-primary;
+			font-size: 1em;
+			padding:15px 10px;
+			text-align: left;
+			white-space: nowrap;
+
+			&.centered, &.align-center {
+				text-align: center;
+			}
+
+			&.action {
+				text-align: center!important;
+			}
+			&.status {
+				text-align: center!important;
+			}
+		}
+
+		td {
+			border-bottom: solid 1px #e1e5e9;
+			padding: 5px 10px;
+			color: #333;
+			font-size: 1em;
+
+			&.action {
+				text-align: center!important;
+				padding:0px;
+				.btn {
+					margin:0 2px!important;
+				}
+
+				table {
+					width:100%;
+					td {
+						padding:0px!important;
+						border:0px;
+						width:33%;
+					}
+				}
+			}
+
+			&.status {
+				text-align: center!important;
+
+				.btn {
+					float:none!important;
+				}
+
+				.active-btn {
+				    cursor: not-allowed;
+				    background: none!important;
+				    border: none!important;
+				    color: #333333!important;
+				}
+			}
+
+			a {text-decoration: underline;}
+		}
+
+		tr:last-of-type {
+			td {border-bottom:0;}
+		}
+
+		.btn {
+			font-size: 0.9em;
+			text-decoration: none;
+			&.edit {
+				&:before {
+					@extend .glyphicon;
+					content: "\270f";
+					margin-right:5px;
+				}
+			}
+			&.delete {
+				&:before {
+					@extend .glyphicon;
+					content: "\e020";
+					margin-right:5px;
+				}
+			}
+			&.copy {
+				&:before {
+					@extend .glyphicon;
+					content: "\e224";
+					margin-right:5px;
+				}
+			}
+			&.view {
+				&:before {
+					@extend .glyphicon;
+					content: "\e022";
+					margin-right:5px;
+				}
+			}
+			&.profile {
+				&:before {
+					@extend .glyphicon;
+					content: "\e008";
+					margin-right:5px;
+				}
+			}
+		}
+
+		.ui-datatable-tablewrapper {
+		    width: 100%;
+		 }
+
+		 .ui-button .ui-button-text {display:inline-block;}
+	}
+
+	.content-wrap & {box-shadow:none;}
+
+}

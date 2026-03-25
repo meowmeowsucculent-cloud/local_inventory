@@ -1,0 +1,266 @@
+$('#edit_user_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#edit_user_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+
+$('#delete_user_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#delete_user_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+$('#new_access_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#new_access_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+
+$('#new_net_new_request_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#new_net_new_request_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+
+$('#view_net_new_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#view_net_new_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+$('#delete_net_new_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#delete_net_new_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+
+$('#delete_build_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#delete_build_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+
+$('#approve_pending_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#approve_pending_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+$('#old_inventory_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#old_inventory_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+$('#add_old_device_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#add_old_device_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+$('#approve_pending_new_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#approve_pending_new_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+
+$('#request_refresh_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#request_refresh_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+$('#process_request_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#process_request_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+$('#approve_pending_request_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#approve_pending_request_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+$('#delete_ewaste_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#delete_ewaste_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+$('#edit_net_new_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#edit_net_new_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+$('#generate_auth_code_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#generate_auth_code_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+$('#repurpose_inventory_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#repurpose_inventory_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+
+$('#delete_master_model_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#delete_master_model_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+$('#edit_master_model_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#edit_master_model_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+
+$('#add_master_model_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#add_master_model_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+$('#edit_new_allocation_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#edit_new_allocation_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+$('#add_attest_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#add_attest_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+$('#signoff_ewaste_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#signoff_ewaste_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+$('#edit_di_filter_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#edit_di_filter_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+$('#delete_di_filter_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#delete_di_filter_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+$('#add_di_filter_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#add_di_filter_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+$('#add_list_item_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#add_list_item_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+$('#edit_list_item_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#edit_list_item_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+
+$('#delete_list_item_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#delete_list_item_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+
+$('#email_update_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#email_update_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+$('#email_add_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#email_add_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+

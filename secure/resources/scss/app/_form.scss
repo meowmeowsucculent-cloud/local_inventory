@@ -1,0 +1,264 @@
+//Form Styles
+label {font-weight: normal;
+		span {font-weight: normal; font-size: 0.9em;}
+}
+
+form {
+	position: relative;
+	clear:both;
+
+	.button-wrap {
+		text-align: center;
+		padding:20px 0 0px 0;
+		border-top:solid 1px #d2d2d2;
+
+		.btn {
+			margin:0 3px;
+			font-size: 1.1em;
+		}
+	}
+
+	.form-group {
+		margin-bottom:20px;
+
+		.btn {
+			margin:0 5px;
+		}
+	}
+
+	.form-control {
+		background: #ffffff;
+		&.inline {
+			display: inline-block;
+			width: auto;
+			vertical-align: middle;
+			border:solid 1px #cacaca;
+			margin-right: 15px;
+		}
+
+		&.small {width:50%;}
+	}
+
+	.small {margin-bottom: 0px;}
+
+	label {
+		span {font-weight: normal;}
+		&.inline {
+			display: inline-block;
+			margin-right:10px;
+		}
+		&.large {
+			font-size: 1.3em;
+		}
+	}
+	span {
+		&.large {
+			font-size: 1.3em;
+			vertical-align: middle;
+		}
+	}
+
+	.label-note {font-size: 0.8em; font-style: italic;}
+
+	.red {margin-right:5px; font-weight: bold;}
+
+	.btn-primary.pull-right {
+		margin-bottom: 20px;
+	}
+
+}
+
+
+
+.checkbox {margin:0 0 10px 0;
+	label {display: block; margin-bottom: 5px;}
+	input[type="checkbox"] {margin-left:0px;}
+}
+
+.disabled {cursor: not-allowed;}
+
+.form-inline {
+	.form-group {
+		span {margin-left:15px;}
+	}
+}
+
+.col-form{
+	margin-top:20px;
+
+	.label-wrap {
+		width:20%;
+		float:left;
+		text-align: right;
+		padding-right:20px;
+
+		label {margin:0;}
+	}
+
+	.input-wrap {
+		width:65%;
+		float:left;
+
+		label {
+			font-weight: normal;
+		}
+
+		span {text-align: center; display:block; margin:8px 0;}
+	}
+
+	.button-wrap {
+		.btn {
+			min-width:100px;
+		}
+	}
+
+	.form-group {
+		@include clearfix;
+
+		.button-wrap {
+			margin-left:20%;
+			margin-bottom: 40px;
+			text-align:left;
+			padding:0px;
+
+			.btn {
+				font-size:inherit;
+				margin:0 10px 0 0;
+			}			
+		}
+	}
+}
+
+.inline-form {
+	label {display:inline-block;}
+	.form-control {
+		display: inline-block;
+		width:auto;
+	}
+}
+
+.sub-inputs {
+	.form-group {
+		margin-left:20px;
+		margin-bottom: 5px;
+	}
+	label {width:40%;}
+	.form-control {width:59%;}
+}
+
+.program-select {
+	margin-bottom:30px;
+	form {display: inline;}
+	label {
+		margin-right:5px;
+		display:inline-block;
+		font-weight: bold;
+	}
+	.form-control {
+		width:200px;
+		display: inline-block;
+	}
+}
+
+.disabled {
+	opacity: 0.5;
+}
+
+.required {
+	font-weight: bold;
+	font-size:1em;
+
+	&:before {
+		content:"*";
+		font-size: 2em;
+		color:#c40000;
+		position: relative;
+		top:9px;
+		line-height:0px;
+		margin-right:2px;
+	}
+
+	span {font-weight: normal; font-size: 0.9em;}
+}
+
+.required-note {
+	text-align: right;
+	font-size: 0.8em;
+	margin-bottom: 10px;
+	float:right;
+
+	label {margin:0;}
+	p {margin: 0; font-style: italic;}	
+}
+
+
+.col-3-form {
+	.form-group {
+		width:33.333%;
+		float:left;
+	}
+	.form-group:nth-of-type(2){padding:0 20px;}
+	
+}
+
+.radio {
+	margin:0;
+	label {display: block; margin-bottom: 5px;}
+
+	table {
+		input[type="radio"] {margin-left:0px;}
+	}
+}
+
+.form-calendar {
+	input {
+		display: inline-block;
+	    width: 90%;
+	    height: 34px;
+	    padding: 6px 35px 6px 12px;
+	    font-size: 14px;
+	    line-height: 1.42857;
+	    color: #555555;
+	    background-color: #fff;
+	    background-image: none;
+	    border: 1px solid #ccc;
+	    border-radius: 0px;
+	    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+	    -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+	    -webkit-transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
+	    transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
+	    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+	    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
+	}
+
+	.ui-icon {
+		width:16px !important;
+		height:16px !important;
+	}
+}
+
+.filter-group {
+	.form-calendar {
+		input {
+		    width: 80%;
+		}
+	}
+}
+
+.academic-years {
+	.ui-chkbox {
+		display: block;
+		float: left;
+	}
+	td, th {
+		padding: 0 10px 0 0;
+		display: table-cell;
+		min-width: 150px;
+	}
+	.checkbox label {
+		display: block;
+		margin-bottom: 10px;
+	}
+}

@@ -1,0 +1,62 @@
+//Popup Styles
+
+.modal-header {
+	background: $brand-primary;
+	color:#fff;
+	border-radius: 5px 5px 0px 0px;
+
+	.modal-title {
+		color:#fff;
+		font-weight: bold;
+	}
+}
+
+.close {
+	color:#fff;
+	text-shadow:0px;
+	opacity: 1;
+}
+
+.modal {
+	.button-wrap {
+		text-align: center;
+		padding:10px 0;
+		border:0px;
+
+		.btn {
+			margin:0 5px;
+		}
+	}
+
+	&.large {
+		.modal-dialog {width:960px;}
+	}
+
+	.row {clear:both;}
+
+}
+
+.help-list {
+	@include clearfix;
+	margin:0;
+	dt {width:25%; float:left;}
+	dd {width:75%; float:left; margin-bottom: 20px;}
+}
+
+.large-modal {
+	width:960px!important;
+}
+.medium-modal {
+	width:660px!important;
+}
+.small-modal {
+	width:360px!important;
+}
+
+.ui-dialog, .large-modal, .medium-modal, .small-modal {
+	.button-wrap {
+		border:0;
+		text-align: center;
+		border:0px;
+	}
+}

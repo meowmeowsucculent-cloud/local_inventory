@@ -1,0 +1,627 @@
+/*** PrimeFaces UI Styles ***/
+
+/*** list-management.xhtml (FAC-2) ***/
+ 
+#listMgmt select[size] { height: 34px; }
+#listMgmt div.desc { padding: 0 25px; }
+#listMgmt button { height: 33px; }
+ 
+.ui-datatable thead > tr > th,
+.ui-datatable tbody.ui-datatable-data > tr > td,
+.ui-datatable thead > tr > th,
+.ui-datatable tbody.ui-datatable-data-empty > tr > td { border-style: none; text-align: left; }
+ 
+.ui-datatable thead > tr > th.action,
+.ui-datatable tbody.ui-datatable-data > tr > td.action,
+.ui-datatable thead > tr > th.action,
+.ui-datatable tbody.ui-datatable-data-empty > tr > td.action { text-align: center; }
+.ui-datatable tbody td {border-color:transparent;}
+ 
+.ui-widget-content a { color: #fff; }
+
+.ui-tabs .ui-tabs-nav.ui-widget-header li {
+    background: #f0f0f0;
+}
+
+.ui-tabs .ui-tabs-nav.ui-widget-header li.ui-state-active {
+    border-top:0;
+}
+
+.ui-tabs .ui-tabs-nav.ui-widget-header li.ui-state-active a{
+    border-top: solid 3px #c99700;
+    font-weight:bold
+}
+
+.ui-tabs.ui-tabs-top .ui-tabs-nav.ui-widget-header li {
+    border-radius: 0px;
+}
+
+.ui-tabs .ui-tabs-nav.ui-widget-header li a {
+    color:#333;
+}
+
+.ui-tabs .ui-tabs-panel {
+    border-width:0px 1px 1px 1px!important;
+}
+
+.ui-tabs .ui-tabs-panel .ui-widget-content {
+    border:0;
+}
+
+.ui-tabs .ui-tabs-panel .ui-panel .ui-panel-content {
+    padding:0px;
+}
+
+.ui-tabs.ui-tabs-top>.ui-tabs-nav {padding:0px!important;}
+.ui-tabs .ui-tabs-nav li a {padding:0.5em 3em!important; outline:none;}
+
+.ui-tabs-panels .ui-panel-content h3 {display: inline-block;}
+.ui-tabs-panels .ui-panel-content .ui-commandlink.btn-primary {float:left;}
+
+
+// Table Styles 
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    color: #333333;
+    text-shadow: none;
+    cursor: pointer;
+    background-color: transparent;
+    background-image: none!important;
+    background-repeat: none;
+    border: 0px;
+    border-color: #cacaca;
+    border-color: #cacaca;
+    border-bottom-color: #cacaca;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+     border-radius: 0px; 
+    filter: none;
+    filter: none;
+    -webkit-box-shadow: 0px;
+    -moz-box-shadow: 0px;
+    box-shadow: 0px;
+}
+
+.ui-datatable .styled th.ui-state-default {
+    background: #d8ebf6;
+    background-image: none;
+    color: #002855;
+    font-size: 1em;
+    padding: 5px 10px;
+    text-align: left;
+    border-bottom: solid 1px #cacaca;
+    box-shadow: none;
+}
+
+.ui-datatable tbody.ui-datatable-data > tr > td {
+    border-bottom: solid 1px #cacaca;
+}
+ 
+.ui-datatable .ui-paginator, .ui-datatable .ui-paginator {
+    padding: 2px;
+    border: 0px;
+    background: transparent;
+    margin-top:20px;
+}
+
+.ui-inputfield {
+    background: transparent;
+    box-shadow:none;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger {
+    width:24px!important;
+    border-left:solid 1px #cacaca;
+}
+
+
+span.ui-draggable.ui-draggable-handle, .ui-droppable tr.ui-widget-content.ui-datatable-even, .ui-droppable tr.ui-widget-content.ui-datatable-odd {
+  cursor: pointer; 
+}
+ 
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+  cursor: auto;
+}
+
+
+// Filter Sidebar styles
+
+.teaching-opportunities {
+
+    .ui-selectonemenu {
+        background: #f7f7f7!important;
+        width: 100%!important;
+        border: 1px solid #ccc!important;
+    }
+    .ui-selectonemenu .ui-selectonemenu-trigger {
+        border-left:0px!important;
+    }
+
+    .ui-selectonemenu label.ui-selectonemenu-label {
+        text-transform: none!important;
+        background:transparent!important;
+        box-shadow:none;
+        position: relative;
+        top:-3px;
+    }
+
+    .ui-chkbox .ui-chkbox-box {
+        background: #f7f7f7!important;
+        border: solid 1px #9B9B9B!important;
+    }
+
+    .ui-widget-content {border:0px!important;}
+
+    .ui-panel .ui-panel-content {padding:0px!important;}
+    
+    .ui-paginator {background:#ffffff!important;}
+
+    .ui-paginator .ui-paginator-current {
+        display:none;
+    }
+
+    .ui-widget-content a {color:#002855!important;}
+}
+
+
+div.ui-widget-content .ui-icon-none {
+  display: none; }
+
+  
+/***********************************************************************/
+/** Styles added by development.*/
+/***********************************************************************/
+.idp-form .form-group .input-wrap .input-text-disabled {
+  opacity: 1;
+  width: 100%;
+}
+
+div.note {
+  font-size: .80em;
+  font-color: #002855;
+}
+
+#primaryMentor.primaryMentorPanel {
+  border: 0 none;
+}
+
+#primaryMentor .input-wrap span.ui-c, #additionalMentorAdd .input-wrap span.ui-c,
+  #researchAddForm .input-wrap span.ui-c, #personalInstitutionalGoalsForm .ui-selectmanycheckbox span.ui-c
+  {
+  text-align: center;
+  display: block;
+  margin: 0 8px 0 0;
+  background-color: #F7F7F7;
+  border: 1px solid #ccc;
+}
+
+#primaryMentor .input-wrap .ui-chkbox-box, #primaryMentor .input-wrap .ui-radiobutton,
+  #additionalMentorAdd .input-wrap .ui-chkbox-box, #additionalMentorAdd .input-wrap .ui-radiobutton,
+  #researchAddForm .input-wrap .ui-chkbox-box,
+  #personalInstitutionalGoalsForm .ui-chkbox-box {
+  margin-right: 10px;
+}
+
+#primaryMentor .input-wrap .ui-icon-bullet, #additionalMentorAdd .input-wrap .ui-icon-bullet
+  {
+  background-position: -64px -144px;
+}
+
+iframe.picker-widget {
+  width: 840px;
+  height: 420px;
+  padding: 0px;
+  background-color: white;
+}
+
+.form-group .input-wrap .prime-control {
+  background-color: #F7F7F7;
+  border: 1px solid #ccc;
+  height: 34px;
+  width: 90%;
+  float: left;
+  display: inline;
+  vertical-align: top;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border-color ease-in-out 0.15s, box-shadow
+    ease-in-out 0.15s;
+  -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out
+    0.15s;
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+
+.prime-control:focus {
+  border-color: #66afe9;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px
+    rgba(102, 175, 233, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px
+    rgba(102, 175, 233, 0.6);
+}
+
+.goal-column {
+  width: 85%;
+}
+
+.goal-action {
+  width: 15%;
+  text-align: center;
+  vertical-align: top;
+}
+
+.lrg-btn-ctr {
+  padding: 5px 0px;
+  text-align: center;
+  border-right: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+#personalInstitutionalGoalsForm #shortTermGoalsPanel_content,
+  #personalInstitutionalGoalsForm #longTermGoalsPanel_content,
+  #personalInstitutionalGoalsForm #otherGoalsPanel_content, .no-left {
+  padding-left: 0px;
+}
+
+.solo-btn {
+  text-indent: -9999px;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 34px;
+  height: 32px;
+  vertical-align: top;
+}
+
+.solo-btn:before {
+  content: "\e085";
+  color: #002855;
+  font-size: 1.5em;
+  text-indent: 0px;
+  float: left;
+  margin-left: -4px;
+  margin-top: -3px;
+  font-family: 'Glyphicons Halflings';
+}
+
+.landingMenu {
+  margin: 35px 0;
+  padding: 30px;
+  /*clear: left;*/
+  border-collapse: collapse;
+  border-spacing: 0; /* aka cellspacing */
+  border-bottom: 4px double #CCD4E0;
+  border-left: 3px solid #CCD4E0;
+  border-right: 3px solid #CCD4E0;
+  border-top: 4px double #CCD4E0;
+  empty-cells: show;
+  margin-left: auto;
+  margin-right: auto;
+  width: 300px;
+  min-height: 0px;
+  color: #CCD4E0;
+  text-align: center;
+}
+
+.landingMenu ul {
+  list-style-type: none;
+}
+
+.applicationLink {
+  color: black;
+}
+
+.navbar-user-right {
+  float: right !important;
+  margin-right: -0px;
+}
+
+.actionButtonDiv {
+  min-height: 30px;
+  min-width: 78px;
+  position: relative;
+  display: inline;
+  float: left;
+}
+
+.idp-form .researchPanel {
+  border: 0 none;
+}
+
+.idp-form .single-label {
+  width: 100%;
+  float: left;
+  text-align: left;
+  margin-bottom: 0px;
+}
+
+.idp-form .single-input {
+  width: 100%;
+  float: left;
+  text-align: left;
+  margin-bottom: 0px;
+}
+
+#researchAddForm .form-group .input-wrap .pf-numinput {
+  height: 34px;
+  width: 50%;
+  float: left;
+  display: inline;
+  vertical-align: top;
+  text-align: left;
+}
+
+#researchAddForm .form-group .input-wrapper .pf-calinput input {
+  background-color: #F7F7F7;
+  border: 1px solid #ccc;
+  height: 34px;
+  width: 20%;
+  vertical-align: top;
+}
+
+.label-wrap label span.ada-req, span.ada-req, b.ada-req {
+  display: inline;
+  font-size: 0.9em;
+  margin-right: 5px;
+  font-weight: bold;
+}
+
+#researchAddForm .ui-datepicker-trigger {
+  opacity: 0;
+  z-index: 9999;
+  height: 34px;
+  width: 40px;
+  background: none;;
+}
+
+#researchAddForm .ui-icon-calendar, #researchAddForm .ui-button-icon-left .ui-icon .ui-icon-calendar
+  {
+  font-family: 'Glyphicons Halflings';
+  color: #fff;
+}
+
+.cal-btn {
+  text-indent: -9999px;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 35px;
+  height: 34px;
+  vertical-align: top;
+  margin-left: -38px;
+}
+
+.cal-btn:before {
+  content: "\e109";
+  color: #002855;
+  font-size: 1.5em;
+  text-indent: 0px;
+  float: left;
+  margin-left: -3px;
+  margin-top: -3px;
+  font-family: 'Glyphicons Halflings';
+}
+
+.idp-form.research .input-wrap span {
+  margin: 0px 0;
+}
+
+/**.idp-form.research .ui-state-disabled, .ui-widget-content .ui-state-disabled, .ui-widget-header .ui-state-disabled {**/
+.idp-form.research .ui-state-disabled, .idp-form.research .ui-widget-content .idp-form.research .ui-state-disabled,
+  .idp-form.research .ui-widget-header .ui-state-disabled {
+  opacity: 1;
+  background-color: transparent;
+}
+
+.idp-form.research span.ui-chkbox-icon.ui-icon.ui-c {
+  border: 1px solid lightgray;
+}
+
+.teachingPanel, .clinicalCarePanel {
+  border: 0 none;
+}
+
+.eligibility-list {
+  margin-right: 15px;
+  border: 1px solid #ccc !important;
+  background-color: rgb(247, 247, 247) !important;
+  height: 34px;
+}
+
+.daterange-list {
+  width: 31% !important;
+  border: 1px solid #ccc !important;
+  background-color: rgb(247, 247, 247) !important;
+  height: 34px;
+}
+
+label.ui-selectonemenu-label {
+  box-shadow: none !important;
+  padding-top: 0px !important;
+  background-color: rgb(247, 247, 247) !important;
+}
+
+.ui-selectonemenu-trigger.ui-state-default.ui-corner-right {
+  border: 0px;
+}
+
+.ui-selectonemenu-trigger span.ui-icon.ui-icon-triangle-1-s.ui-c {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.list-pair-label {
+  margin-right: 5px;
+  display: inline;
+  height: 36px;
+  vertical-align: super;
+}
+
+/* 
+    no simple alternative as class 'red' has other, still desired, style rules.
+    'red' span and b tags are used to label required inputs and, per the revised
+    standards, 'required' labels must now be black.
+*/
+.red, span.red, b.red {
+  color: black;
+}
+/*
+    error messages must now have black font and gray background
+*/
+.ui-messages-error, .ui-message-error {
+  color: black !important;
+  background-color: #f0f0f0 !important;
+  border-color: lightgray !important;
+}
+
+.svcSelfDevPanel, .timeAllocationPanel, .completeIdpPanel {
+  border: 0 none;
+}
+
+.goal-edit-btn {
+  text-indent: -9999px;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 35px;
+  height: 34px;
+  margin-left: -18px;
+  margin-top: 20px;
+}
+
+.goal-edit-btn:before {
+  content: "\270f";
+  color: #002855;
+  font-size: 1.5em;
+  text-indent: 0px;
+  float: left;
+  margin-left: -3px;
+  margin-top: -2px;
+  font-family: 'Glyphicons Halflings';
+}
+
+#svcSelfDevTitleForm .ui-selectonemenu {
+  min-width: 250px !important;
+  border: 1px solid #ccc;
+  height: 34px;
+}
+
+#svcSelfDevTitleForm label.ui-selectonemenu-label {
+  box-shadow: none !important;
+  padding-top: 4px !important;
+  background-color: rgb(247, 247, 247) !important;
+  height: 32px;
+}
+
+#svcSelfDevTitleForm .ui-selectonemenu-trigger.ui-state-default.ui-corner-right
+  {
+  border: 0px;
+}
+
+#svcSelfDevTitleForm .ui-selectonemenu-trigger span.ui-icon.ui-icon-triangle-1-s.ui-c
+  {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#svcSelfDevTitleForm .list-pair-label {
+  margin-right: 5px;
+  display: inline;
+  height: 36px;
+  vertical-align: super;
+}
+
+#svcSelfDevTitleForm .otherInputText {
+  margin-left: -17px !important;
+  border: 1px solid #ccc;
+  width: 250px !important;
+  margin-top: -5px important;
+}
+
+#timeAllocationForm .norm {
+  color: #002285;
+}
+
+#timeAllocationForm .pf-numinput {
+  height: 30px;
+  width: 130px;
+  float: left;
+  display: inline;
+  vertical-align: top;
+  text-align: left;
+  margin-right: 5px;
+}
+
+#timeAllocationForm .pf-numinput input {
+  background-color: #F7F7F7;
+  border: 1px solid #ccc;
+  height: 30px;
+  width: 130px;
+  vertical-align: top;
+  text-align: right;
+}
+
+#timeAllocationForm .ui-datatable-tablewrapper {
+  overflow: hidden !important;
+}
+
+#timeAllocationForm .year-hyphen {
+  height: 34px;
+  vertical-align: top;
+  margin: 0px 5px;
+}
+
+#timeAllocationForm .header-break {
+  white-space: pre;
+  margin-bottom: 0px !important;
+}
+
+#timeAllocationForm .header-smaller {
+  font-weight: bold;
+  font-size: .8em;
+}
+
+.idp-form.research ui-state-disabled, .idp-form.research .ui-widget-content .ui-state-disabled,
+  .idp-form.research .ui-widget-header .ui-state-disabled {
+  opacity: 1;
+  background-color: #ffffff;
+}
+
+#manageIdpForm .idp-buttons {
+  padding: 3px 8px;
+}
+
+#manageIdpForm .solo-button {
+  text-align: center;
+}
+
+.actionButtonDiv2 {
+  min-height: 30px;
+  min-width: 145px;
+  position: relative;
+  display: inline;
+  float: left;
+}
+
+.mge-idp-inline {
+  min-width: 100px;
+  text-align: right;
+  margin-right: 5px;
+  vertical-align: top;
+  display: inline;
+}
+
+span.note {
+  color: #002855;
+  margin-left: 10px;
+}
+
+// Search Sidebar Checkboxes
+.teaching-opportunities .ui-chkbox {
+  display:block;
+  float:left;
+}
+
+.teaching-opportunities .sidebar .checkbox label {
+  display:block;
+  line-height:16px;
+  margin:0 0 8px 12px;
+}

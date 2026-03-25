@@ -1,0 +1,253 @@
+//IDP Styles
+
+.idp {
+	width:25%;
+	float:left;
+
+	// IDP Navigation
+	.idp-navigation {
+		ul {
+			list-style-type: none;
+			margin: 0;
+			padding:0;
+			border-bottom:solid 1px #cacaca;
+
+			li {
+				font-size:1.2em;
+				color:#333;
+				background: #f0f0f0;
+				border:solid 1px #cacaca;
+				border-bottom:0px;
+				border-right:0px;
+				display: block;
+				padding:10px;
+				position: relative;
+
+				span {
+					display:block;
+					font-size: 0.85em;
+				}
+
+				&.active {
+					font-weight: bold;
+					background: #fff;
+					border-top:solid 3px $brand-secondary;
+				}
+			}
+		}
+
+		.icon-complete{
+			position: absolute;
+			right:10px;
+			top:50%;
+			margin-top:-13px;
+		}
+	}
+
+}
+
+.idp-form {
+	border:solid 1px #cacaca;
+	padding:15px;
+	width:75%;
+	float:left;
+	min-height:710px;
+
+	h3 {
+		font-size: 1.4em;
+	}
+
+	h4 {
+		font-size:1.2em;
+		font-weight:bold;
+		margin-top:20px;
+	}
+
+	ul, ol {
+		li {margin-bottom:10px;}
+	}
+
+	.label-wrap {
+		width:30%;
+		float:left;
+		text-align: right;
+		padding-right:20px;
+
+		label {margin:0;
+			span {display:block; font-size: 0.9em;
+				&.red {
+					display: inline;
+				}
+			}
+		}
+		.form-control {
+			&.small {
+				width:40px;
+				display: inline-block;
+				margin-right:10px;
+			}
+		}
+	}
+
+	.input-wrap {
+		width:70%;
+		float:left;
+		position: relative;
+
+		label {
+			font-weight: normal;
+			display:block;
+		}
+		.form-control {
+			width:90%;
+			display: inline-block;
+			border: solid 1px #ccc;
+		}
+
+		span {text-align: center; display:block; margin:8px 0;}
+		.info-btn {
+			display: inline-block;
+			margin:0 0 0 5px;
+			position: absolute;
+			width:26px;
+			height:25px;
+			padding:0px;
+		}
+	}
+	
+	.form-control {
+		&.small {
+			width:200px;
+			display:inline-block;
+			margin-left:20px;
+		}
+	}
+
+	.form-group {
+		@include clearfix;
+
+		.styled {
+			.btn {
+				&.align-center {
+					margin:0 auto;
+					width:150px;
+				}
+			}
+
+			td {vertical-align: top;}
+		}
+
+		label {
+			&.inline {font-weight: normal;}
+		}
+	}
+
+	.button-wrap {
+		text-align: center;
+		margin:40px 0 40px 0;
+
+		.btn {
+			font-size: 1em;
+			margin:0 2px;
+			width:auto;
+			min-width:135px;
+			display:inline-block;
+		}
+
+		.btn-default {color:#333!important;}
+
+	}
+
+	.btn {
+		&.large {
+			font-size: 1.2em;
+		}
+	}
+
+	.step1, .step11 {
+		.btn-primary.large {
+			font-size: 1.2em;
+			padding:6px 20px;
+			margin-bottom:20px;
+			display:block;
+			margin:0 auto;
+			width:180px;
+		}
+
+		.btn-primary {
+			&.inline {
+				display: inline-block!important;
+				margin:20px 0 0 0;
+			}
+		}
+
+		.btn-default {
+			display:block!important;
+			margin:20px auto 0 auto!important;
+			width:180px!important;
+
+			&.inline {
+				display: inline-block!important;
+			}
+		}
+	}
+
+	.styled {margin-top:0px;
+		textarea {
+			min-height:130px;
+			background:#f9f9f9;
+		}
+ 
+		td {padding: 10px;}
+
+		.btn {width:100%;
+				&.edit, &.view, &.delete {
+					width:auto;
+				}
+
+				&.goal {
+					width:160px;
+					margin:0 auto;
+					display: block;
+				}
+		}
+
+		&.teaching {
+			margin-bottom: 10px;
+			th {text-align: center;}
+			.form-control {
+				&.inline {
+					padding:5px;
+					margin:0px;
+				}
+
+				&.small {
+					margin-left:0px;
+					@media (min-width: $screen-sm-min) {
+						width:45px;
+					}
+					@media (min-width: $screen-md-min) {
+						width:75px;
+					}
+					@media (min-width: $screen-lg-min) {
+						width:145px;
+					}
+				}
+			}
+			textarea {min-height:70px;}
+
+			.inline-inputs {
+				.inline {
+					@media (min-width: $screen-sm-min) {
+						display:block;
+						width:100%;
+					}
+					@media (min-width: $screen-lg-min) {
+						display:inline-block;
+						width:auto;
+					}
+				}
+			}
+		}
+	}
+}

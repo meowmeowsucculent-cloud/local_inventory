@@ -1,0 +1,46 @@
+// Tab Styles
+
+.tab-pane {
+	border:solid 1px #cacaca;
+	border-top:0px;
+	padding:25px;
+
+	h4 {margin-bottom: 30px; font-size:1.2em;}
+}
+
+.tab-content {
+	h3 {
+		font-size: 1.2em;
+		margin-bottom: 20px;
+	}
+}
+
+.nav-tabs {
+	li {
+		width:25%;
+		text-align: center;
+		a {
+			border:1px solid #cacaca; 
+			color:#333; 
+			padding:10px 15px;
+			margin-right:-1px;
+			background: #f0f0f0;
+			height:40px;
+			&:hover {
+				border:1px solid #cacaca;
+				background: #fff;
+			}
+		}
+		&.active {
+			a, a:hover {
+				border-color:#cacaca;
+				border-bottom:0px;
+				border-top:solid 3px $brand-secondary;
+				font-weight: bold;
+				background: #fff;
+			}
+		}
+	}
+}
+
+
