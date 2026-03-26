@@ -181,12 +181,12 @@
 								</table>
 							<cfelse>
 								<p>
-									The selected fiscal year does not have any inventory left
+									There is no inventory to display
 								</p>
 							</cfif>
 						<cfelse>
 							<p>
-								Select a fiscal year to populate the table
+								There is no inventory to display
 							</p>
 						</cfif>	
 					</div>					

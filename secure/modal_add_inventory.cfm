@@ -11,6 +11,7 @@
 	<CFPARAM NAME = "Session.is_pre_inventory" default="0">
 	<CFPARAM NAME = "Session.is_purchased" default="0">
 	<CFPARAM NAME = "Session.is_propagated" default="0">
+	<CFPARAM NAME = "Session.have_receipt" default="0">
 	<CFPARAM NAME = "Session.quantity" default="0">
 	<CFPARAM NAME = "Session.cost" default="0">
 	<CFPARAM NAME = "Session.shipping" default="0">
@@ -31,6 +32,21 @@
 								where type = 'category'
 								and active = '1'
 							</cfquery>
+
+							<cfquery name="get_vendor" datasource="#DSN#">
+								select *
+								from list_management
+								where type = 'vendor'
+								and active = '1'
+							</cfquery>
+
+							<cfquery name="get_payment_method" datasource="#DSN#">
+								select *
+								from list_management
+								where type = 'payment method'
+								and active = '1'
+							</cfquery>
+
 							<cfform method=post action="modal_add_inventory.cfm">								
 								<div class="content-wrap">
 									<div class="row">			
@@ -53,6 +69,74 @@
 										<div class="col-sm-2">
 											&nbsp;
 										</div>									
+									</div>
+
+									<div class="row">			
+										<div class="col-sm-12">
+											&nbsp;
+										</div>																	
+									</div>																			
+									<div class="row">
+										<div class="col-sm-3">
+											<strong>Vendor:</strong>
+										</div>
+										<div class="col-sm-7">
+											<cfselect name="vendor" size="1" class="form-select" id="bootstrap-select-filter">
+												<option value="0">- Select -</option>
+												<cfloop query="get_vendor">
+													<option value="#Trim(get_vendor.id)#">#Trim(get_vendor.description)#</option>
+												</cfloop>										
+											</cfselect>
+										</div>		
+										<div class="col-sm-2">
+											&nbsp;
+										</div>									
+									</div>
+
+									<div class="row">			
+										<div class="col-sm-12">
+											&nbsp;
+										</div>																	
+									</div>																			
+									<div class="row">
+										<div class="col-sm-3">
+											<strong>Payment Method:</strong>
+										</div>
+										<div class="col-sm-7">
+											<cfselect name="payment_method" size="1" class="form-select" id="bootstrap-select-filter">
+												<option value="0">- Select -</option>
+												<cfloop query="get_payment_method">
+													<option value="#Trim(get_payment_method.id)#">#Trim(get_payment_method.description)#</option>
+												</cfloop>										
+											</cfselect>
+										</div>		
+										<div class="col-sm-2">
+											&nbsp;
+										</div>									
+									</div>
+
+									<div class="row">			
+										<div class="col-sm-12">
+											&nbsp;
+										</div>																	
+									</div>		
+
+									<div class="row">										
+										<div class="col-sm-3">
+											<strong>Have Receipt?</strong>
+										</div>
+									  	<div class="col-sm-3 switch-left">	
+									  		<div class="d-flex">										  		
+										  		No&nbsp;&nbsp;
+										        <div class="form-switch form-switch form-switch-md">
+										            <input class="form-check-input" type="checkbox" name="have_receipt" id="flexSwitchCheckChecked">  	
+										        </div>
+										        <label for="site_state" class="form-check-label">&nbsp;&nbsp;Yes</label>
+									  		</div>									  						  	
+								       	</div>	
+								       	<div class="col-sm-6">
+											&nbsp;
+										</div>						  
 									</div>
 
 									<div class="row">			
@@ -125,7 +209,7 @@
 								       	<div class="col-sm-6">
 											&nbsp;
 										</div>						  
-									</div>
+									</div>									
 
 									<div class="row">			
 										<div class="col-sm-12">
@@ -177,6 +261,21 @@
 											&nbsp;
 										</div>																	
 									</div>	
+
+									<div class="row">	
+										<div class="col-sm-3">
+											<strong>Notes:</strong>
+										</div>		
+										<div class="col-sm-9">
+											<cftextarea name="notes" cols="50" rows="5"></cftextarea>
+										</div>																	
+									</div>
+
+									<div class="row">			
+										<div class="col-sm-12">
+											&nbsp;
+										</div>																	
+									</div>	
 									<div class="row">
 										<div class="col-sm-12">								
 											<cfinput type="submit" name="add_inventory" value="Add Inventory" class="btn btn-primary">
@@ -209,19 +308,33 @@
 						<cfif IsDefined("form.is_propagated")>
 							<cfset Session.is_propagated = 1>
 						</cfif>
+						<cfif IsDefined("form.have_receipt")>
+							<cfset Session.have_receipt = 1>
+						</cfif>
 
 						<cfset Session.quantity = Trim(form.quantity)>
 						<cfset Session.cost = Trim(form.cost)>
 						<cfset Session.shipping = Trim(form.shipping)>
 						<cfset Session.category = Trim(form.category)>
+						<cfset Session.notes = Trim(form.notes)>
+						<cfset Session.vendor = Trim(form.vendor)>
+						<cfset Session.payment_method = Trim(form.payment_method)>
 
 						<!--- Insert inventory --->
-						<cfset Session.db_uuid = rereplace(createuuid(),"-","","all")>
+						<cfset Session.inventory_db_uuid = rereplace(createuuid(),"-","","all")>
 						<cfquery name="insert_inventory" datasource="#DSN#">
 							insert into inventory 
-							(id, category_id, is_pre_inventory, is_purchased, is_propagated, on_hand_qty, plant_cost, shipping_cost, created_date)
+							(id, category_id, is_pre_inventory, is_purchased, is_propagated, on_hand_qty, plant_cost, shipping_cost, created_date, notes)
 							values 
-							('#Session.db_uuid#', '#Session.category#', '#Session.is_pre_inventory#', '#Session.is_purchased#', '#Session.is_propagated#', '#Session.quantity#', '#Session.cost#', '#Session.shipping#','#Session.DateNow#')
+							('#Session.inventory_db_uuid#', '#Session.category#', '#Session.is_pre_inventory#', '#Session.is_purchased#', '#Session.is_propagated#', '#Session.quantity#', '#Session.cost#', '#Session.shipping#','#Session.DateNow#', '#Session.notes#')
+						</cfquery>
+
+						<cfset Session.expense_db_uuid = rereplace(createuuid(),"-","","all")>
+						<cfquery name="insert_expense" datasource="#DSN#">
+							insert into expense
+							(id, expense_date, vendor_payee, category, description, payment_method, amount, receipt, notes, inventory_id)
+							values 
+							('#Session.expense_db_uuid#', '#Session.DateNow#', '#Session.vendor#', 'Inventory', 'Inventory Addition', '#Session.payment_method#', '#Session.cost#' + '#Session.shipping#', '#Session.have_receipt#', '#Session.notes#', '#Session.inventory_db_uuid#')
 						</cfquery>
 
 						<div class="row">			

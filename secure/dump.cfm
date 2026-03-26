@@ -52,6 +52,7 @@ https://helpx.adobe.com/coldfusion/cfml-reference/reserved-words-and-variables/c
 	<br><br>
 	<cfdump var="#SESSION#" label="SESSION">
 	<br><br>
+
 </cfsavecontent>
 
 <cfsavecontent variable="variables.sessionDump">	
@@ -69,6 +70,7 @@ https://helpx.adobe.com/coldfusion/cfml-reference/reserved-words-and-variables/c
 <cfsavecontent variable="variables.FormDump">	
 	<cfdump var="#FORM#" label="FORM">
 </cfsavecontent>
+
 
 <cfdump var="#CFCATCH.Detail#" label="Detail">
 <br>
