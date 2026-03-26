@@ -113,6 +113,9 @@
 											<strong>Payment Method</strong>
 										</th>
 										<th>
+											<strong>Receipt</strong>
+										</th>
+										<th>
 											<strong>Inventory Item</strong>
 										</th>																																																				
 										<th>
@@ -141,6 +144,12 @@
 												<td>
 													#get_Expenses.payment_method#
 												</td>	
+												<td>
+													<cfif get_Expenses.receipt NEQ 1>
+														Yes
+													<cfelse>
+														No
+													</cfif>
 												<td>
 													<cfif get_Expenses.inventory_id NEQ "">
 														<cfquery name="get_Inventory_Item" datasource="#DSN#">

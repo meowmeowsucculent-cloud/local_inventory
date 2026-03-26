@@ -297,7 +297,7 @@
 											<strong>Notes:</strong>
 										</div>		
 										<div class="col-sm-9">
-											<cftextarea name="notes" cols="50" rows="5"></cftextarea>
+											<cftextarea name="notes" cols="50" rows="5" class="form-control"></cftextarea>
 										</div>																	
 									</div>
 
