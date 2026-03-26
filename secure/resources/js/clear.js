@@ -13,3 +13,11 @@ $('#edit_inventory_modal').on('hidden.bs.modal', function () {
 $('#edit_inventory_modal').on('hidden.bs.modal', function () {
     window.location.reload(true);
 });
+
+$('#inventory_loss_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#inventory_loss_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});

@@ -5,9 +5,14 @@
 				<a class="nav-link dropdown-toggle" href="" data-bs-toggle="dropdown" aria-expanded="false">
 					<span class="bi bi-list"></span>
 				</a>
-				<ul class="dropdown-menu">					
-					<li><a href="manage_inventory.cfm">Manage Inventory</a></li> 	     
-					<li><a href="manage_system.cfm">Manage System</a></li>
+				<ul class="dropdown-menu">	
+					<li><a class="dropdown-item" href="index.cfm">Home</a></li>
+					<li><a href="view_annual_summary.cfm">Annual Summary</a></li>					
+					<li><a href="manage_expenses.cfm">Manage Expenses</a></li>
+					<li><a href="manage_inventory.cfm">Manage Inventory</a></li>
+					<li><a href="modal_inventory_loss.cfm">Manage Inventory Loss</a></li>
+					<li><a href="manage_sales.cfm">Manage Sales</a></li>					
+					<li><a href="manage_system.cfm">Manage System</a></li>	
 				</ul>
 			</li>
 		</ul>

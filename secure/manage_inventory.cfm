@@ -169,7 +169,11 @@
 													<a class="action-icon" href="" data-bs-toggle="modal" data-bs-target="##edit_inventory_modal"  data-backdrop="static" data-remote="modal_edit_inventory.cfm?ID=#get_inventory.ID#" style="text-decoration:none;">
 														<i class="bi bi-pencil-square" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit Item" aria-label="Edit Item">
 														</i>
-													</a>														                        					                      
+													</a>	
+													<a class="action-icon" href="" data-bs-toggle="modal" data-bs-target="##inventory_loss_modal"  data-backdrop="static" data-remote="modal_inventory_loss.cfm?ID=#get_inventory.ID#" style="text-decoration:none;">
+														<i class="bi bi-x-square" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Inventory Loss" aria-label="Inventory Loss">
+														</i>
+													</a>													                        					                      
 												</td>
 											</tr>
 										</cfloop> 
@@ -191,21 +195,6 @@
 		    </cfoutput>
 		    
 		    <!--- Modal --->
-			<div class="modal fade" id="help_manage_access_Modal" tabindex="-1" role="dialog" data-bs-backdrop="static" aria-labelledby="helpModalLabel" aria-hidden="true">
-				<div class="modal-dialog modal-lg modal-dialog-scrollable" role="dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="helpModalLabel">Help</h5>
-							<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close">
-							</button>
-						</div>
-						<div class="modal-body">
-							
-						</div>
-					</div><!-- /.modal-content -->
-				</div><!-- /.modal-dialog -->
-			</div><!-- /.modal -->
-
 			<div class="modal fade" id="add_new_inventory_modal" tabindex="-1" role="dialog" data-bs-backdrop="static" aria-labelledby="NewUserModalLabel" aria-hidden="true">
 				<div class="modal-dialog modal-xl modal-dialog-scrollable" role="dialog">
 					<div class="modal-content">
@@ -234,7 +223,22 @@
 						</div>
 					</div><!-- /.modal-content -->
 				</div><!-- /.modal-dialog -->
-			</div><!-- /.modal -->			
+			</div><!-- /.modal -->		
+
+			<div class="modal fade" id="inventory_loss_modal" tabindex="-1" role="dialog" data-bs-backdrop="static" aria-labelledby="NewUserModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-xl modal-dialog-scrollable" role="dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="NewFacModalLabel">Inventory Loss</h5>
+							<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close">
+							</button>
+						</div>
+						<div class="modal-body">
+							<cfinclude template="modal_inventory_loss.cfm" >
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->		
 
 
 		    <cfinclude template="common_footer.cfm" >

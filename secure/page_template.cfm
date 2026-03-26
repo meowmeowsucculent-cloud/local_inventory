@@ -38,14 +38,25 @@
 				      	</ol>
 				    </div>				
 
-					<div class="float-end mb-5">						
-						<a href="" data-bs-toggle="modal" data-bs-target="##add_master_model_modal"  data-backdrop="static" style="text-decoration:none;">
-	                    	<button class="btn btn-primary" data-bs-toggle="tooltip" data-placement="bottom" title="Add New Model">
-								Add New Model
+					<div class="float-end mb-5">
+						<a href="" data-bs-toggle="modal" data-bs-target="##add_new_inventory_modal" data-backdrop="static"  style="text-decoration:none;">
+							<button class="btn btn-primary" data-bs-toggle="tooltip" data-placement="bottom" title="Add Inventory">
+								Add Inventory
 							</button>
-                        </a>
-					</div>
-			
+						</a>
+					</div>	
+				
+					<cfquery name="get_inventory" datasource="#DSN#">
+						select i.*, lm.description, lm.type
+						from inventory i
+						inner join list_management lm
+						on i.category_id = lm.id and lm.type = 'category'
+						where lm.active = '1'
+						and lm.type = 'category'
+					</cfquery>
+					<cfif get_inventory.recordcount GT 0>
+						<cfset Session.Has_Inventory = 1>
+					</cfif>
 					
 					<div class="content-wrap">
 						<cfform action="manage_inventory.cfm" method="post" >
@@ -76,6 +87,66 @@
 							</div>	         				 		          				
 	          			</cfform>
 	          			
+	          			<cfif Session.Display_Filtered_Data>
+	          				<cfif Session.Has_Inventory>
+								<table class="styled_picker stripe" id="universal_list_3">
+									<thead>											
+										<th>
+											<strong>Category</strong>
+										</th>
+										<th>
+											<strong>Pre-Inventory</strong>
+										</th>
+										<th>
+											<strong>Purchased</strong>
+										</th>
+										<th>
+											<strong>Propagated</strong>
+										</th>
+										<th>
+											<strong>On Hand Qty</strong>
+										</th>
+										<th>
+											<strong>Cost</strong>
+										</th>
+										<th>
+											<strong>Shipping Cost</strong>
+										</th>	
+										<th>
+											<strong>Inventory Value</strong>
+										</th>
+										<th>
+											<strong>Date Added</strong>
+										</th>																																									
+										<th>
+											<strong>Action</strong>
+										</th>											
+									</thead>										
+									<tbody>
+										<cfloop query="get_inventory">
+											
+											<tr>
+																			
+												<td>																															
+													<a class="action-icon" href="" data-bs-toggle="modal" data-bs-target="##edit_inventory_modal"  data-backdrop="static" data-remote="modal_edit_inventory.cfm?ID=#get_inventory.ID#" style="text-decoration:none;">
+														<i class="bi bi-pencil-square" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit Item" aria-label="Edit Item">
+														</i>
+													</a>														                        					                      
+												</td>
+											</tr>
+										</cfloop> 
+									</tbody>
+								</table>
+							<cfelse>
+								<p>
+									The selected fiscal year does not have any inventory left
+								</p>
+							</cfif>
+						<cfelse>
+							<p>
+								Select a fiscal year to populate the table
+							</p>
+						</cfif>	
 					</div>					
 				</div><!-- end .container -->
 		    </div><!-- end content -->
@@ -97,20 +168,35 @@
 				</div><!-- /.modal-dialog -->
 			</div><!-- /.modal -->
 
-			<div class="modal fade" id="add_master_model_modal" tabindex="-1" role="dialog" data-bs-backdrop="static" aria-labelledby="DeleteModalLabel" aria-hidden="true">
-				<div class="modal-dialog modal-lg modal-dialog-scrollable" role="dialog">
+			<div class="modal fade" id="add_new_inventory_modal" tabindex="-1" role="dialog" data-bs-backdrop="static" aria-labelledby="NewUserModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-xl modal-dialog-scrollable" role="dialog">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="DeleteModalLabel">Add Model</h5>
+							<h5 class="modal-title" id="NewFacModalLabel">Add Inventory</h5>
 							<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close">
 							</button>
 						</div>
 						<div class="modal-body">
-							<cfinclude template="modal_add_master_model.cfm" >
+							<cfinclude template="modal_add_inventory.cfm" >
 						</div>
 					</div><!-- /.modal-content -->
 				</div><!-- /.modal-dialog -->
-			</div><!-- /.modal -->	
+			</div><!-- /.modal -->
+
+			<div class="modal fade" id="edit_inventory_modal" tabindex="-1" role="dialog" data-bs-backdrop="static" aria-labelledby="NewUserModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-xl modal-dialog-scrollable" role="dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="NewFacModalLabel">Edit Inventory</h5>
+							<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close">
+							</button>
+						</div>
+						<div class="modal-body">
+							<cfinclude template="modal_edit_inventory.cfm" >
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->			
 
 
 		    <cfinclude template="common_footer.cfm" >
