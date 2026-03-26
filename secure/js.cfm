@@ -78,6 +78,18 @@
 	// or, load content from value of data-remote url
 	modal.find('.modal-body').load(button.data("remote"));
 	});
+
+	$('#edit_expenses_modal').on('show.bs.modal', function (e) {
+
+	var button = $(e.relatedTarget);
+	var modal = $(this);
+
+	// load content from HTML string
+	//modal.find('.modal-body').html("Data goes here");
+
+	// or, load content from value of data-remote url
+	modal.find('.modal-body').load(button.data("remote"));
+	});	
 	
 </script>
 

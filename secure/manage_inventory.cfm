@@ -170,10 +170,18 @@
 														<i class="bi bi-pencil-square" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit Item" aria-label="Edit Item">
 														</i>
 													</a>	
-													<a class="action-icon" href="" data-bs-toggle="modal" data-bs-target="##inventory_loss_modal"  data-backdrop="static" data-remote="modal_inventory_loss.cfm?ID=#get_inventory.ID#" style="text-decoration:none;">
-														<i class="bi bi-x-square" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Inventory Loss" aria-label="Inventory Loss">
-														</i>
-													</a>													                        					                      
+
+													<cfif get_inventory.on_hand_qty GT 0>
+														<a class="action-icon" href="" data-bs-toggle="modal" data-bs-target="##inventory_loss_modal"  data-backdrop="static" data-remote="modal_inventory_loss.cfm?ID=#get_inventory.ID#" style="text-decoration:none;">
+															<i class="bi bi-x-square" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Inventory Loss" aria-label="Inventory Loss">
+															</i>
+														</a>
+													<cfelse>
+														<a class="action-icon" style="text-decoration:none;" disabled>
+															<i class="bi bi-x-square" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Inventory Loss" aria-label="Inventory Loss">
+															</i>
+														</a>
+													</cfif>													                        					                      
 												</td>
 											</tr>
 										</cfloop> 

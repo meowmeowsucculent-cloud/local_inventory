@@ -26,11 +26,19 @@
 						<cfset GoodData = 1>
 												
 						<cfif GoodData>		
-							<cfquery name="get_category" datasource="#DSN#">
+							<cfquery name="get_plant_category" datasource="#DSN#">
 								select *
 								from list_management
 								where type = 'category'
 								and active = '1'
+							</cfquery>
+
+							<cfquery name="get_expense_category" datasource="#DSN#">
+								select *
+								from list_management
+								where type = 'Expense'
+								and active = '1'
+								Order by description
 							</cfquery>
 
 							<cfquery name="get_vendor" datasource="#DSN#">
@@ -59,10 +67,10 @@
 											<strong>Plant Category:</strong>
 										</div>
 										<div class="col-sm-7">
-											<cfselect name="category" size="1" class="form-select" id="bootstrap-select-filter">
+											<cfselect name="plant_category" size="1" class="form-select" id="bootstrap-select-filter">
 												<option value="0">- Select -</option>
-												<cfloop query="get_category">
-													<option value="#Trim(get_category.id)#">#Trim(get_category.description)#</option>
+												<cfloop query="get_plant_category">
+													<option value="#Trim(get_plant_category.id)#">#Trim(get_plant_category.description)#</option>
 												</cfloop>										
 											</cfselect>
 										</div>		
@@ -78,7 +86,7 @@
 									</div>																			
 									<div class="row">
 										<div class="col-sm-3">
-											<strong>Vendor:</strong>
+											<strong>Vendor/Payee:</strong>
 										</div>
 										<div class="col-sm-7">
 											<cfselect name="vendor" size="1" class="form-select" id="bootstrap-select-filter">
@@ -92,6 +100,28 @@
 											&nbsp;
 										</div>									
 									</div>
+
+									<div class="row">			
+										<div class="col-sm-12">
+											&nbsp;
+										</div>																	
+									</div>																			
+									<div class="row">
+										<div class="col-sm-3">
+											<strong>Expense Category:</strong>
+										</div>
+										<div class="col-sm-7">
+											<cfselect name="expense_category" size="1" class="form-select" id="bootstrap-select-filter">
+												<option value="0">- Select -</option>
+												<cfloop query="get_expense_category">
+													<option value="#Trim(get_expense_category.id)#">#Trim(get_expense_category.description)#</option>
+												</cfloop>										
+											</cfselect>
+										</div>		
+										<div class="col-sm-2">
+											&nbsp;
+										</div>									
+									</div>	
 
 									<div class="row">			
 										<div class="col-sm-12">
@@ -315,10 +345,12 @@
 						<cfset Session.quantity = Trim(form.quantity)>
 						<cfset Session.cost = Trim(form.cost)>
 						<cfset Session.shipping = Trim(form.shipping)>
-						<cfset Session.category = Trim(form.category)>
+						<cfset Session.plant_category = Trim(form.plant_category)>
 						<cfset Session.notes = Trim(form.notes)>
 						<cfset Session.vendor = Trim(form.vendor)>
 						<cfset Session.payment_method = Trim(form.payment_method)>
+						<cfset Session.expense_category = Trim(form.expense_category)>
+						<cfset Session.Total_Cost = Session.cost + Session.shipping>	
 
 						<!--- Insert inventory --->
 						<cfset Session.inventory_db_uuid = rereplace(createuuid(),"-","","all")>
@@ -334,7 +366,7 @@
 							insert into expense
 							(id, expense_date, vendor_payee, category, description, payment_method, amount, receipt, notes, inventory_id)
 							values 
-							('#Session.expense_db_uuid#', '#Session.DateNow#', '#Session.vendor#', 'Inventory', 'Inventory Addition', '#Session.payment_method#', '#Session.cost#' + '#Session.shipping#', '#Session.have_receipt#', '#Session.notes#', '#Session.inventory_db_uuid#')
+							('#Session.expense_db_uuid#', '#Session.DateNow#', '#Session.vendor#', '#Session.expense_category#', 'Inventory Addition', '#Session.payment_method#', '#Session.Total_Cost#', '#Session.have_receipt#', '#Session.notes#', '#Session.inventory_db_uuid#')
 						</cfquery>
 
 						<div class="row">			

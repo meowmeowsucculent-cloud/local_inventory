@@ -35,7 +35,6 @@
 	<cfset this.scriptprotect="all">
 
 
-	
 	<cfinclude template="dsn.cfm">
 	<cfinclude template="system_settings.cfm" >
 
