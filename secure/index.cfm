@@ -27,7 +27,7 @@
 		    </cfoutput>
 
 		    <!--- clear page values, set defaults ---->		    
-		    <cfinclude template="clear_Data.cfm" >
+		    <cfinclude template="clear_data.cfm" >
 			
 			<cfoutput>
 		    <div id="content">
@@ -43,9 +43,9 @@
 							<li><a href="view_annual_summary.cfm">Annual Summary</a></li>	 
 							<li><a href="manage_expenses.cfm">Manage Expenses</a></li>
 							<li><a href="manage_inventory.cfm">Manage Inventory</a></li>
-							<li><a href="modal_inventory_loss.cfm">Manage Inventory Loss</a></li>
+							<li><a href="manage_inventory_loss.cfm">Manage Inventory Loss</a></li>
 							<li><a href="manage_sales.cfm">Manage Sales</a></li>					
-							<li><a href="manage_system.cfm">Manage System</a></li>	   				
+							<li><a href="list_management.cfm">List Management</a></li>	   				
 						</ul>
 					</div>
 				</div>
