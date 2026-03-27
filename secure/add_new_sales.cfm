@@ -64,6 +64,8 @@
 							and i.on_hand_qty > '0'
 						</cfquery>
 
+						<cfset Session.Max_QTY = get_inventory.on_hand_qty>
+
 						<cfquery name="get_expense_category" datasource="#DSN#">
 							select *
 							from list_management
@@ -260,6 +262,8 @@
 						<cfif Session.New_Sales_Page_Status EQ 20>
 							<cfset Session.New_Sales_Page_Status = 0>	
 
+							<cfset Good_Sale = 1>
+
 							<cfset Session.Price_Sold = Form.price_sold>
 							<cfset Session.Quantity_Sold = Form.quantity_sold>
 							<cfset Session.Tax_Rate = Form.tax>
@@ -267,47 +271,65 @@
 							<cfset Session.Sales_Location = Form.sales_location>
 							<cfset Session.Date_Sold = Form.sale_date>
 
+							<cfif Session.quantity_sold GT Session.Max_QTY>
+								<cfset Good_Sale = 0>
+								<div class="alert alert-danger" role="alert">
+									Quantity Sold cannot be greater than quantity on hand. Please adjust the quantity sold or update the inventory on hand quantity.	
+								</div>
+							<cfelse>
+								<cfset Good_Sale = 1>
+							</cfif>
 
+							<cfif Good_Sale	>
+								<!--- This is where we would display the sales details form and allow the user to submit the new sale to the database. --->
+								<cfquery name="get_sales_info" datasource="#DSN#">
+									select i.*, lm.description, lm.type
+									from inventory i
+									inner join list_management lm
+									on i.category_id = lm.id and lm.type = 'category'
+									where i.id = <cfqueryparam value="#Session.New_Sales_Inventory_ID#" cfsqltype="cf_sql_longvarchar" >
+								</cfquery>
 
-							<!--- This is where we would display the sales details form and allow the user to submit the new sale to the database. --->
-							<cfquery name="get_sales_info" datasource="#DSN#">
-								select i.*, lm.description, lm.type
-								from inventory i
-								inner join list_management lm
-								on i.category_id = lm.id and lm.type = 'category'
-								where i.id = <cfqueryparam value="#Session.New_Sales_Inventory_ID#" cfsqltype="cf_sql_longvarchar" >
-							</cfquery>
+								<cfset Session.Subtotal = Session.Price_Sold * Session.Quantity_Sold>
+								<cfset Session.Tax_Amount = Session.Subtotal * Session.Tax_Rate>
+								<cfset Session.Sub_Total_Revenue = Session.Subtotal + Session.Tax_Amount>
 
-							<cfset Session.Subtotal = Session.Price_Sold * Session.Quantity_Sold>
-							<cfset Session.Tax_Amount = Session.Subtotal * Session.Tax_Rate>
-							<cfset Session.Sub_Total_Revenue = Session.Subtotal + Session.Tax_Amount>
+								<cfset Session.Total_Cost = get_sales_info.plant_cost + get_sales_info.shipping_cost>
 
-							<cfset Session.Total_Cost = get_sales_info.plant_cost + get_sales_info.shipping_cost>
+								<cfset Session.Total_Revenue = Session.Sub_Total_Revenue - Session.Total_Cost>
 
-							<cfset Session.Total_Revenue = Session.Sub_Total_Revenue - Session.Total_Cost>
+								<cfset Session.sales_db_uuid = rereplace(createuuid(),"-","","all")>
+								<cfquery name="save_sales" datasource="#DSN#">
+									insert into sales (id, inventory_id, date_sold, qty_sold, sales_price, tax_rate, revenue, sales_location, payment_method, total_cost, total_sales)
+									values ('#Session.sales_db_uuid#', '#Session.New_Sales_Inventory_ID#', '#Session.Date_Sold#', '#Session.Quantity_Sold#', '#Session.Price_Sold#', '#Session.Tax_Rate#', '#Session.Total_Revenue#', 
+									'#Session.Sales_Location#', '#Session.Payment_Method#', '#Session.Total_Cost#', '#Session.Sub_Total_Revenue#')																	
+								</cfquery>
 
-							<cfset Session.sales_db_uuid = rereplace(createuuid(),"-","","all")>
-							<cfquery name="save_sales" datasource="#DSN#">
-								insert into sales (id, inventory_id, date_sold, qty_sold, sales_price, tax_rate, revenue, sales_location, payment_method, total_cost, total_sales)
-								values ('#Session.sales_db_uuid#', '#Session.New_Sales_Inventory_ID#', '#Session.Date_Sold#', '#Session.Quantity_Sold#', '#Session.Price_Sold#', '#Session.Tax_Rate#', '#Session.Total_Revenue#', 
-								'#Session.Sales_Location#', '#Session.Payment_Method#', '#Session.Total_Cost#', '#Session.Sub_Total_Revenue#')																	
-							</cfquery>
+								<div class="row">			
+									<div class="col-sm-12">
+										&nbsp;
+									</div>																	
+								</div>	
 
-							
-								<p>You have selected to add a new sale for the following inventory item:</p>
-								<h3>#Trim(get_inventory.description)#</h3>
-								<p>Additional sales details form would go here.</p>
+								<div class="alert alert-info" role="alert">
+									New Sale Added!
+								</div>
 
-								<p>
-								Session.Sales_Location: #Session.Sales_Location#<br>
-								Session.Payment_Method: #Session.Payment_Method#<br>
-								Plant Cost: #get_sales_info.plant_cost#<br>
-								Shipping Cost: #get_sales_info.shipping_cost#<br>
-								QTY Sold: #Session.Quantity_Sold#<br>
-								Sales Price: #Session.Price_Sold#<br>
-								Tax: #Session.Tax_Rate#<br>
-								Total Revenue: #Session.Total_Revenue#
-								</p>
+								<div class="row">			
+									<div class="col-sm-12">
+										&nbsp;
+									</div>																	
+								</div>
+							<cfelse>
+								<div class="row">			
+									<div class="col-sm-12">
+										&nbsp;
+									</div>																	
+								</div>	
+								<div class="alert alert-danger" role="alert">
+									There was an issue with the sale details you entered. Please review the information and try again.	
+								</div>								
+							</cfif>
 						</cfif>
 					</div>					
 				</div><!-- end .container -->

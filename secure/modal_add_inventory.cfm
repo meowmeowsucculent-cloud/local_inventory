@@ -386,11 +386,11 @@
 						</div>
 
 						<div class="content-wrap">							
-								<button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="##add_new_inventory_modal"  data-bs-dismiss="modal">
-									Close
-								</button>
-							</div>
-						
+							<button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="##add_new_inventory_modal"  data-bs-dismiss="modal">
+								Close
+							</button>
+						</div>
+					
 					</cfif>
 								
 				</div>
