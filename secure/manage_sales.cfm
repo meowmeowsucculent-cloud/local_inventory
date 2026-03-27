@@ -47,12 +47,17 @@
 					</div>	
 				
 					<cfquery name="get_sales" datasource="#DSN#">
-						select s.id, s.date_sold, s.qty_sold, sales_price, s.tax_rate, s.revenue, lmi.description
+						select s.id, s.date_sold, s.qty_sold, sales_price, s.tax_rate, s.revenue, lmi.description, lmsl.description as sales_location, lmpm.description as payment_method
 						from sales s
 						inner join inventory i
 						on s.inventory_id = i.id
 						inner join list_management lmi
 						on i.category_id = lmi.id and lmi.type = 'category'
+						inner join list_management lmsl
+						on s.sales_location = lmsl.id and lmsl.type = 'Sales Location'
+						inner join list_management lmpm
+						on s.payment_method = lmpm.id and lmpm.type = 'Payment Method'
+						order by s.date_sold desc
 					</cfquery>
 					<cfif get_sales.recordcount GT 0>
 						<cfset Session.Has_Sales = 1>
@@ -98,6 +103,12 @@
 											<strong>Description</strong>
 										</th>
 										<th>
+											<strong>Sales Location</strong>
+										</th>
+										<th>
+											<strong>Payment Method</strong>
+										</th>
+										<th>
 											<strong>Quantity Sold</strong>
 										</th>
 										<th>
@@ -122,6 +133,12 @@
 												</td>
 												<td>
 													#get_sales.description#
+												</td>
+												<td>
+													#get_sales.sales_location#
+												</td>	
+												<td>
+													#get_sales.payment_method#
 												</td>
 												<td>
 													#get_sales.qty_sold#

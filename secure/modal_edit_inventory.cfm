@@ -175,7 +175,7 @@
 
 									<div class="row">	
 										<div class="col-sm-3">
-											<strong>Cost:</strong>
+											<strong>Cost Each:</strong>
 										</div>		
 										<div class="col-sm-9">
 											<cfinput name="cost" type="float" min="0" class="form-control" value="#Session.cost#">
@@ -190,7 +190,7 @@
 
 									<div class="row">	
 										<div class="col-sm-3">
-											<strong>Shipping:</strong>
+											<strong>Shipping Each:</strong>
 										</div>		
 										<div class="col-sm-9">
 											<cfinput name="shipping" type="float" min="0" class="form-control" value="#Session.shipping#">
