@@ -26,6 +26,7 @@
 		    <cfinclude template="clear_data.cfm" >
 
 			<cfset Session.Display_Filtered_Data = 1>
+			<CFPARAM NAME = "Session.Has_Inventory_Loss" default="0">
 
 			<cfoutput>
 		    <div id="content">

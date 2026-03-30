@@ -358,7 +358,7 @@
 							insert into inventory 
 							(id, category_id, is_pre_inventory, is_purchased, is_propagated, on_hand_qty, plant_cost, shipping_cost, created_date, notes)
 							values 
-							('#Session.inventory_db_uuid#', '#Session.category#', '#Session.is_pre_inventory#', '#Session.is_purchased#', '#Session.is_propagated#', '#Session.quantity#', '#Session.cost#', '#Session.shipping#','#Session.DateNow#', '#Session.notes#')
+							('#Session.inventory_db_uuid#', '#Session.plant_category#', '#Session.is_pre_inventory#', '#Session.is_purchased#', '#Session.is_propagated#', '#Session.quantity#', '#Session.cost#', '#Session.shipping#','#Session.DateNow#', '#Session.notes#')
 						</cfquery>
 
 						<cfset Session.expense_db_uuid = rereplace(createuuid(),"-","","all")>

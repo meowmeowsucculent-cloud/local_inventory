@@ -27,6 +27,8 @@
 
 			<cfset Session.Display_Filtered_Data = 1>
 
+			<CFPARAM NAME = "Session.Has_Sales" default="0">
+
 			<cfoutput>
 		    <div id="content">
 		    	<div class="container-fluid">				

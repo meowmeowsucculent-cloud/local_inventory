@@ -38,21 +38,16 @@
 				      	</ol>
 				    </div>				
 
-					
-					<cfif get_sales.recordcount GT 0>
-						<cfset Session.Has_Sales = 1>
-					</cfif>
-					
 					<div class="content-wrap">
-						<cfform action="manage_sales.cfm" method="post" >
+						<cfform action="annual_summary.cfm" method="post" >
 		          			<div class="row class_table_heading">
 								<div class="col-lg-3">									
 									<!----
 									Fiscal Year: &nbsp;
 									<cfselect name="filter_year_value" size="1" onChange="loadPage(this)" class="form-select" id="bootstrap-select-filter">
-										<option value="manage_sales.cfm?id=9">- Select -</option>		          						
+										<option value="an.cfm?id=9">- Select -</option>		          						
 										<cfloop query="get_FY">
-											<option value="manage_sales.cfm?id=#Trim(get_FY.id)#" <cfif Trim(get_FY.id) EQ Session.filter_year_manage_sales>Selected</cfif>>#Trim(get_FY.planning_year)#</option>
+											<option value="annual_summary.cfm?id=#Trim(get_FY.id)#" <cfif Trim(get_FY.id) EQ Session.filter_year_manage_sales>Selected</cfif>>#Trim(get_FY.planning_year)#</option>
 										</cfloop> 
 									</cfselect>
 									--->
@@ -71,108 +66,97 @@
 								</div>
 							</div>	         				 		          				
 	          			</cfform>
-	          			
-	          			<cfif Session.Display_Filtered_Data>
-	          				<cfif Session.Has_Sales>
-								<table class="styled_picker stripe" id="universal_list_3">
-									<thead>											
-										<th>
-											<strong>Date Sold</strong>
-										</th>
-										<th>
-											<strong>Description</strong>
-										</th>
-										<th>
-											<strong>Sales Location</strong>
-										</th>
-										<th>
-											<strong>Payment Method</strong>
-										</th>
-										<th>
-											<strong>Quantity Sold</strong>
-										</th>
-										<th>
-											<strong>Sales Price</strong>
-										</th>
-										<th>
-											<strong>Tax Rate</strong>
-										</th>
-										<th>
-											<strong>Revenue</strong>
-										</th>																																																		
-										<th>
-											<strong>Action</strong>
-										</th>											
-									</thead>										
-									<tbody>
-										<cfloop query="get_sales">
-											
-											<tr>
-												<td>
-													#DateFormat(get_sales.date_sold, "mm/dd/yyyy")#
-												</td>
-												<td>
-													#get_sales.description#
-												</td>
-												<td>
-													#get_sales.sales_location#
-												</td>	
-												<td>
-													#get_sales.payment_method#
-												</td>
-												<td>
-													#get_sales.qty_sold#
-												</td>
-												<td>
-													#DollarFormat(get_sales.sales_price)#
-												</td>
-												<td>
-													#get_sales.tax_rate# %
-												</td>
-												<td>
-													#DollarFormat(get_sales.revenue)#
-												</td>																															
-												<td>																															
-													<a class="action-icon" href="" data-bs-toggle="modal" data-bs-target="##edit_sales_modal"  data-backdrop="static" data-remote="modal_edit_sales.cfm?ID=#get_sales.ID#" style="text-decoration:none;">
-														<i class="bi bi-pencil-square" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit Sale" aria-label="Edit Sale">
-														</i>
-													</a>														                        					                      
-												</td>
-											</tr>
-										</cfloop> 
-									</tbody>
-								</table>
-							<cfelse>
-								<p>
-									There is no inventory to display
-								</p>
-							</cfif>
+
+						<cfquery name="get_expenses" datasource="#DSN#">
+							select sum(e.amount) as total_expense
+							from expense e
+							inner join list_management lme
+							on lme.id = e.vendor_payee and lme.type = 'Vendor'
+							inner join list_management lmp
+							on lmp.id = e.payment_method and lmp.type = 'Payment Method'
+							inner join list_management lmc
+							on lmc.id = e.category and lmc.type = 'Expense'							
+						</cfquery>
+
+						<cfif Len(get_expenses.total_expense) EQ 0>
+							<cfset Session.total_expense = 0>
+						<cfelse>	
+							<cfset Session.total_expense = get_expenses.total_expense>
+						</cfif>
+
+						<cfquery name="get_sales" datasource="#DSN#">
+							select sum(s.sales_price) as total_sales
+							from sales s
+							inner join inventory i
+							on s.inventory_id = i.id
+							inner join list_management lmi
+							on i.category_id = lmi.id and lmi.type = 'category'
+							inner join list_management lmsl
+							on s.sales_location = lmsl.id and lmsl.type = 'Sales Location'
+							inner join list_management lmpm
+							on s.payment_method = lmpm.id and lmpm.type = 'Payment Method'					
+						</cfquery>
+					
+						<cfif Len(get_sales.total_sales) EQ 0>
+							<cfset Session.total_sales = 0>
 						<cfelse>
-							<p>
-								There is no inventory to display
-							</p>
+							<cfset Session.total_sales = get_sales.total_sales>
 						</cfif>	
+
+	          			
+	          			<div class="row">			
+							<div class="col-sm-12">
+								&nbsp;
+							</div>																	
+						</div>	
+
+						<div class="alert alert-info" role="alert">
+							Expenses Summary
+						</div>
+
+						<div class="row">			
+							<div class="col-sm-12">
+								Total Expenses: <strong>$#NumberFormat(Session.total_expense, "9,999.99")#</strong>
+							</div>																	
+						</div>
+
+						<div class="row">			
+							<div class="col-sm-12">
+								&nbsp;
+							</div>																	
+						</div>	
+
+						<div class="alert alert-info" role="alert">
+							Sales Summary
+						</div>
+
+						<div class="row">			
+							<div class="col-sm-12">
+								Total Sales: <strong>$#NumberFormat(Session.total_sales, "9,999.99")#</strong>
+							</div>																	
+						</div>
+
+						<div class="row">			
+							<div class="col-sm-12">
+								&nbsp;
+							</div>																	
+						</div>	
+
+						<div class="alert alert-info" role="alert">
+							YTD Net Income
+						</div>
+
+						<div class="row">			
+							<div class="col-sm-12">
+								Net Income: <strong>$#NumberFormat(Session.total_sales - Session.total_expense, "9,999.99")#</strong>
+							</div>																	
+						</div>
 					</div>					
 				</div><!-- end .container -->
 		    </div><!-- end content -->
 		    </cfoutput>
 		    
 		    <!--- Modal --->
-
-			<div class="modal fade" id="edit_sales_modal" tabindex="-1" role="dialog" data-bs-backdrop="static" aria-labelledby="NewUserModalLabel" aria-hidden="true">
-				<div class="modal-dialog modal-xl modal-dialog-scrollable" role="dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="NewFacModalLabel">Edit Sales</h5>
-							<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close">
-							</button>
-						</div>
-						<div class="modal-body">
-							<cfinclude template="modal_edit_sales.cfm" >
-						</div>
-					</div><!-- /.modal-content -->
-				</div><!-- /.modal-dialog -->
-			</div><!-- /.modal -->		
 
 
 		    <cfinclude template="common_footer.cfm" >
