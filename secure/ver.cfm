@@ -1,1 +1,1 @@
-<cfset Session.appver = "v1.1.0">
+<cfset Session.appver = "v1.6.0">
