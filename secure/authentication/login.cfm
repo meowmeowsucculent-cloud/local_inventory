@@ -32,8 +32,16 @@
 				<cfset Session.Login_Status = 0>
 			</cfif>	
 
+			<cfif IsDefined("form.reset_code")>
+				<cfset Session.Login_Status = 30>	
+			</cfif>
+
 			<cfif IsDefined("form.send_code")>
 				<cfset Session.Login_Status = 10>	
+			</cfif>			
+
+			<cfif Not IsDefined("Session.Email_Code")>
+				<cfset Session.Email_Code = 0>
 			</cfif>
 
 			<cfif Not IsDefined("Session.Code_Submitted")>
@@ -129,8 +137,32 @@
 									<cfinput type="submit" value="Submit Code" name="submit_code" class="btn btn-primary">
 								</div>
 							</cfform>	
+
+							<div class="row">
+								<div class="col-lg-12">
+									&nbsp;
+								</div>
+							</div>	
+							<cfform method=post action="">								
+								<div class="row">
+									<div class="col-lg-12">
+										&nbsp;
+									</div>
+								</div>	
+								<div class="form-group">
+									<cfinput type="submit" value="Reset Process" name="reset_code" class="btn btn-primary">
+								</div>
+							</cfform>
 											
 						</cfif>
+
+						<cfif Session.Login_Status EQ 30>
+							<cfset Session.Email_Code_Sent = 0>
+							<cfset Session.User_Authenticated = 0>
+							<cfset Session.Login_Status = 0>
+							<cflocation url="login.cfm" addtoken="false">
+						</cfif>
+
 					</div>					
 				</div><!--- end .container --->
 		    </div><!--- end content --->
