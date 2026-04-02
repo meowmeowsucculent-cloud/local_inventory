@@ -47,3 +47,13 @@ $('#add_new_item_modal').on('hidden.bs.modal', function () {
 $('#add_new_item_modal').on('hidden.bs.modal', function () {
     window.location.reload(true);
 });
+
+$('#edit_item_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#edit_item_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});
+
+

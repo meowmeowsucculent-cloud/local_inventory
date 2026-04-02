@@ -8,9 +8,6 @@
 		<cfset Session.Add_List_Item_Modal_Status = 10>
 	</cfif>	
 
-	<CFPARAM NAME = "Session.have_receipt" default="0">
-
-
 	<cflayout type="vbox" name="layout1">
 		<cflayoutarea overflow="hidden" >
 		<cfoutput >

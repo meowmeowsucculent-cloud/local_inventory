@@ -90,6 +90,18 @@
 	// or, load content from value of data-remote url
 	modal.find('.modal-body').load(button.data("remote"));
 	});	
+
+	$('#edit_item_modal').on('show.bs.modal', function (e) {
+
+	var button = $(e.relatedTarget);
+	var modal = $(this);
+
+	// load content from HTML string
+	//modal.find('.modal-body').html("Data goes here");
+
+	// or, load content from value of data-remote url
+	modal.find('.modal-body').load(button.data("remote"));
+	});	
 	
 </script>
 
@@ -239,37 +251,4 @@ $(document).ready(function(){
         }, 8000);
 });
 </script>
-
-
-<!--- these scripts move the sort caret next to the column header --->
-<script type="text/javascript">
-
-	$(document).ready( function () {
-	  var table = $('#access_list').DataTable();
-
-	  table.columns().iterator( 'column', function (ctx, idx) {
-	    $( table.column(idx).header() ).append('<span class="sort-icon"/>');
-	  } );
-	} );
-	
-	$(document).ready( function () {
-	  var table = $('#build_list').DataTable();
-
-	  table.columns().iterator( 'column', function (ctx, idx) {
-	    $( table.column(idx).header() ).append('<span class="sort-icon"/>');
-	  } );
-	} );
-	
-	$(document).ready( function () {
-	  var table = $('#inventory_list').DataTable();
-
-	  table.columns().iterator( 'column', function (ctx, idx) {
-	    $( table.column(idx).header() ).append('<span class="sort-icon"/>');
-	  } );
-	} );
-	
-</script>
-
-
-
 

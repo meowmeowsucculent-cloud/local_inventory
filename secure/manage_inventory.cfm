@@ -27,6 +27,14 @@
 
 			<cfset Session.Display_Filtered_Data = 1>
 
+			<cfif Not IsDefined("Session.filter_inventory")>
+				<cfset Session.filter_inventory = 0>
+			</cfif>
+
+			<cfif IsDefined("url.filter_type_value")>
+				<cfset Session.filter_inventory = url.filter_type_value>	
+			</cfif>
+
 			<cfoutput>
 		    <div id="content">
 		    	<div class="container-fluid">				
@@ -53,7 +61,11 @@
 						on i.category_id = lm.id and lm.type = 'category'
 						where lm.active = '1'
 						and lm.type = 'category'
+						<cfif Session.filter_inventory EQ "OnHand">
+							and i.on_hand_qty > 0
+						</cfif>
 					</cfquery>
+
 					<cfif get_inventory.recordcount GT 0>
 						<cfset Session.Has_Inventory = 1>
 					</cfif>
@@ -62,15 +74,12 @@
 						<cfform action="manage_inventory.cfm" method="post" >
 		          			<div class="row class_table_heading">
 								<div class="col-lg-3">									
-									<!----
-									Fiscal Year: &nbsp;
-									<cfselect name="filter_year_value" size="1" onChange="loadPage(this)" class="form-select" id="bootstrap-select-filter">
-										<option value="manage_inventory.cfm?id=9">- Select -</option>		          						
-										<cfloop query="get_FY">
-											<option value="manage_inventory.cfm?id=#Trim(get_FY.id)#" <cfif Trim(get_FY.id) EQ Session.filter_year_manage_inventory>Selected</cfif>>#Trim(get_FY.planning_year)#</option>
-										</cfloop> 
-									</cfselect>
-									--->
+									Filter: &nbsp;
+									<cfselect name="filter_type_value" size="1" onChange="loadPage(this)" class="form-select" id="bootstrap-select-filter">
+										<option value="list_management.cfm?id=9">- Select -</option>		          						
+										<option value="manage_inventory.cfm?filter_type_value=All" <cfif Session.filter_inventory EQ "All">selected</cfif>>All Inventory</option> 
+										<option value="manage_inventory.cfm?filter_type_value=OnHand" <cfif Session.filter_inventory EQ "OnHand">selected</cfif>>Only On Hand</option> 
+									</cfselect>	
 								</div>																
 								<div class="col-lg-9 data_align_left">
 								</div>
