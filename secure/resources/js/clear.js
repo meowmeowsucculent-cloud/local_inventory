@@ -38,3 +38,12 @@ $('#edit_expenses_modal').on('hidden.bs.modal', function () {
 $('#edit_expenses_modal').on('hidden.bs.modal', function () {
     window.location.reload(true);
 });
+
+
+$('#add_new_item_modal').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+
+$('#add_new_item_modal').on('hidden.bs.modal', function () {
+    window.location.reload(true);
+});

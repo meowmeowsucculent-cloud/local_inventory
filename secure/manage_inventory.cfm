@@ -160,7 +160,11 @@
 													#DollarFormat(get_inventory.shipping_cost)#
 												</td>	
 												<td>
-													#DollarFormat((get_inventory.plant_cost * get_inventory.on_hand_qty) + get_inventory.shipping_cost)#
+													<cfif get_inventory.on_hand_qty GT 0>
+														#DollarFormat((get_inventory.plant_cost * get_inventory.on_hand_qty) + get_inventory.shipping_cost)#
+													<cfelse>
+														$0.00
+													</cfif>
 												</td>
 												<td>
 													#DateFormat(get_inventory.created_date, "mm/dd/yyyy")#

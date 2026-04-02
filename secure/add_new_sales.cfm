@@ -114,7 +114,7 @@
 											<cfselect name="inventory" size="1" class="form-select" onChange="loadPage(this)" id="bootstrap-select-filter">
 												<option value="0">- Select -</option>
 												<cfloop query="get_inventory">
-													<option value="add_new_sales.cfm?inventory_target=#Trim(get_inventory.id)#">#Trim(get_inventory.description)#</option>
+													<option value="add_new_sales.cfm?inventory_target=#Trim(get_inventory.id)#">#Trim(get_inventory.description)# (QTY: #Trim(get_inventory.on_hand_qty)#)</option>
 												</cfloop>										
 											</cfselect>
 										</div>		
@@ -289,10 +289,10 @@
 									on i.category_id = lm.id and lm.type = 'category'
 									where i.id = <cfqueryparam value="#Session.New_Sales_Inventory_ID#" cfsqltype="cf_sql_longvarchar" >
 								</cfquery>
-
-								<cfset Session.Subtotal = Session.Price_Sold * Session.Quantity_Sold>
-								<cfset Session.Tax_Amount = Session.Subtotal * Session.Tax_Rate>
-								<cfset Session.Sub_Total_Revenue = Session.Subtotal + Session.Tax_Amount>
+								
+								<cfset Session.Tax_Amount = Session.Price_Sold * Session.Tax_Rate>
+							
+								<cfset Session.Sub_Total_Revenue = Session.Price_Sold - Session.Tax_Amount>
 
 								<cfset Session.Total_Cost = get_sales_info.plant_cost + get_sales_info.shipping_cost>
 
@@ -303,6 +303,12 @@
 									insert into sales (id, inventory_id, date_sold, qty_sold, sales_price, tax_rate, revenue, sales_location, payment_method, total_cost, total_sales)
 									values ('#Session.sales_db_uuid#', '#Session.New_Sales_Inventory_ID#', '#Session.Date_Sold#', '#Session.Quantity_Sold#', '#Session.Price_Sold#', '#Session.Tax_Rate#', '#Session.Total_Revenue#', 
 									'#Session.Sales_Location#', '#Session.Payment_Method#', '#Session.Total_Cost#', '#Session.Sub_Total_Revenue#')																	
+								</cfquery>
+
+								<cfquery name="update_inventory" datasource="#DSN#">
+									update inventory
+									set on_hand_qty = on_hand_qty - #Session.Quantity_Sold#
+									where id = <cfqueryparam value="#Session.New_Sales_Inventory_ID#" cfsqltype="cf_sql_longvarchar" >
 								</cfquery>
 
 								<div class="row">			
