@@ -29,6 +29,14 @@
 
 			<CFPARAM NAME = "Session.Has_Sales" default="0">
 
+			<cfif Not IsDefined("Session.filter_sales_location")>
+				<cfset Session.filter_sales_location = 0>
+			</cfif>
+
+			<cfif IsDefined("url.type_id")>
+				<cfset Session.filter_sales_location = url.type_id>	
+			</cfif>
+
 			<cfoutput>
 		    <div id="content">
 		    	<div class="container-fluid">				
@@ -49,7 +57,7 @@
 					</div>	
 				
 					<cfquery name="get_sales" datasource="#DSN#">
-						select s.id, s.date_sold, s.qty_sold, sales_price, s.tax_rate, s.revenue, lmi.description, lmsl.description as sales_location, lmpm.description as payment_method
+						select s.id, s.date_sold, s.qty_sold, sales_price, s.tax_rate, s.revenue, lmi.description, lmsl.description as sales_location, lmpm.description as payment_method, s.inventory_id
 						from sales s
 						inner join inventory i
 						on s.inventory_id = i.id
@@ -59,25 +67,34 @@
 						on s.sales_location = lmsl.id and lmsl.type = 'Sales Location'
 						inner join list_management lmpm
 						on s.payment_method = lmpm.id and lmpm.type = 'Payment Method'
+						<cfif Session.filter_sales_location NEQ 0>
+							where lmsl.description = <cfqueryparam value="#Session.filter_sales_location#" cfsqltype="cf_sql_varchar">
+						</cfif>
 						order by s.date_sold desc
 					</cfquery>
 					<cfif get_sales.recordcount GT 0>
 						<cfset Session.Has_Sales = 1>
 					</cfif>
+
+					<cfquery name="get_filter_type" datasource="#DSN#">
+						select distinct lm.description
+						from sales s
+						inner join list_management lm
+						on s.sales_location = lm.id
+						order by lm.description asc
+					</cfquery>
 					
 					<div class="content-wrap">
 						<cfform action="manage_sales.cfm" method="post" >
 		          			<div class="row class_table_heading">
 								<div class="col-lg-3">									
-									<!----
-									Fiscal Year: &nbsp;
-									<cfselect name="filter_year_value" size="1" onChange="loadPage(this)" class="form-select" id="bootstrap-select-filter">
-										<option value="manage_sales.cfm?id=9">- Select -</option>		          						
-										<cfloop query="get_FY">
-											<option value="manage_sales.cfm?id=#Trim(get_FY.id)#" <cfif Trim(get_FY.id) EQ Session.filter_year_manage_sales>Selected</cfif>>#Trim(get_FY.planning_year)#</option>
+									Sales Location: &nbsp;									
+									<cfselect name="filter_type_value" size="1" onChange="loadPage(this)" class="form-select" id="bootstrap-select-filter">
+										<option value="manage_sales.cfm?type_id=0">- Select -</option>		          						
+										<cfloop query="get_filter_type">
+											<option value="manage_sales.cfm?type_id=#Trim(get_filter_type.description)#" <cfif Trim(get_filter_type.description) EQ Session.filter_sales_location>Selected</cfif>>#Trim(get_filter_type.description)#</option>
 										</cfloop> 
-									</cfselect>
-									--->
+									</cfselect>	
 								</div>																
 								<div class="col-lg-9 data_align_left">
 								</div>
@@ -155,7 +172,7 @@
 													#DollarFormat(get_sales.revenue)#
 												</td>																															
 												<td>																															
-													<a class="action-icon" href="" data-bs-toggle="modal" data-bs-target="##edit_sales_modal"  data-backdrop="static" data-remote="modal_edit_sales.cfm?ID=#get_sales.ID#" style="text-decoration:none;">
+													<a class="action-icon" href="edit_sales.cfm?ID1=#get_sales.id#&ID2=#get_sales.inventory_id#"  style="text-decoration:none;">
 														<i class="bi bi-pencil-square" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit Sale" aria-label="Edit Sale">
 														</i>
 													</a>														                        					                      

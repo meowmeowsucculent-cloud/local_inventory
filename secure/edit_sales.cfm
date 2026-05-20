@@ -18,27 +18,39 @@
 				<div class="container-fluid">
 					<ul>			        		      				
 						<li><a href="index.cfm">Home</a></li>	  
-						<li><a href="add_new_sales.cfm" class="active">Add New Sale</a></li>															
+						<li><a href="edit_sales.cfm" class="active">Edit Sale</a></li>															
 					</ul>
 				</div>
 			</nav>
 		    
 		    <cfinclude template="clear_data.cfm" >
 
-			<cfif Not IsDefined("Session.New_Sales_Page_Status")>
-				<cfset Session.New_Sales_Page_Status = 0>				
+			<cfset Session.Tax_Rate = 0.0775>
+
+			<cfif Not IsDefined("Session.Edit_Sales_Item_Modal_Status")>
+				<cfset Session.Edit_Sales_Item_Modal_Status = 0>				
 			</cfif>
 
-			<cfif IsDefined("url.inventory_target")>
-				<cfset Session.New_Sales_Page_Status = 10>
-				<cfset Session.New_Sales_Inventory_ID = url.inventory_target>
-			</cfif>
-
-			<cfif IsDefined("Form.sales_step_1")>
-				<cfset Session.New_Sales_Page_Status = 20>				
+			<cfif IsDefined("form.edit_sales_step_1")>
+				<cfset Session.Edit_Sales_Item_Modal_Status = 10>
 			</cfif>	
 
-			<cfset Session.Tax_Rate = 0.0775>
+			<cfif IsDefined("url.id1")>
+				<cfset GoodData = 1>
+				<cfset Session.Edit_Sales_Item_ID = Trim(url.id1)>
+				<cfif IsDefined("url.id2")>
+					<cfset Session.Edit_Sales_Inventory_ID = Trim(url.id2)>
+					<cfquery name="get_sales" datasource="#DSN#">
+						Select * from sales 
+						where id = <cfqueryparam value="#Session.Edit_Sales_Item_ID#" cfsqltype="cf_sql_varchar">	
+						and inventory_id = <cfqueryparam value="#Session.Edit_Sales_Inventory_ID#" cfsqltype="cf_sql_varchar" >	
+					</cfquery>
+				</cfif>
+
+				<cfif get_sales.recordcount EQ 0>
+					<cfset Session.Edit_Sales_Item_Modal_Status = 99>					
+				</cfif>
+			</cfif>
 
 			<cfoutput>
 		    <div id="content">
@@ -48,7 +60,7 @@
 				      	<ol class="breadcrumbs">
 				      		<li><a href="index.cfm">Home</a></li>					      		
 				      		<li><a href="manage_sales.cfm">Manage Sales</a></li>
-							<li><a href="add_new_sales.cfm" class="active">Add New Sale</a></li>					      	
+							<li><a href="edit_sales.cfm" >Edit Sale</a></li>					      	
 				      	</ol>
 				    </div>				
 					
@@ -59,29 +71,11 @@
 							from inventory i
 							inner join list_management lm
 							on i.category_id = lm.id and lm.type = 'category'
-							where lm.active = '1'
-							and lm.type = 'category'
-							and i.on_hand_qty > '0'
+							where i.id = <cfqueryparam value="#Session.Edit_Sales_Inventory_ID#" cfsqltype="cf_sql_varchar" >	
 						</cfquery>
 
 						<cfset Session.Max_QTY = get_inventory.on_hand_qty>
-
-						<cfquery name="get_expense_category" datasource="#DSN#">
-							select *
-							from list_management
-							where type = 'Expense'
-							and active = '1'
-							Order by description
-						</cfquery>
-
-						<cfquery name="get_vendor" datasource="#DSN#">
-							select *
-							from list_management
-							where type = 'vendor'
-							and active = '1'
-							Order by description
-						</cfquery>
-
+				
 						<cfquery name="get_payment_method" datasource="#DSN#">
 							select *
 							from list_management
@@ -96,10 +90,10 @@
 							where type = 'sales location'
 							and active = '1'
 							Order by description
-						</cfquery>			
+						</cfquery>								
 
-						<cfif Session.New_Sales_Page_Status EQ 0>
-							<cfform method=post action="add_new_sales.cfm">								
+						<cfif Session.Edit_Sales_Item_Modal_Status EQ 0>
+							<cfform method=post action="edit_sales.cfm">								
 								<div class="content-wrap">
 									<div class="row">			
 										<div class="col-sm-12">
@@ -108,28 +102,17 @@
 									</div>																			
 									<div class="row">
 										<div class="col-sm-2">
-											<strong>Select Inventory:</strong>
+											<strong>Inventory:</strong>
 										</div>
 										<div class="col-sm-5">									
-											<cfselect name="inventory" size="1" class="form-select" onChange="loadPage(this)" id="bootstrap-select-filter">
-												<option value="0">- Select -</option>
-												<cfloop query="get_inventory">
-													<option value="add_new_sales.cfm?inventory_target=#Trim(get_inventory.id)#">#Trim(get_inventory.description)# (QTY: #Trim(get_inventory.on_hand_qty)#)</option>
-												</cfloop>										
-											</cfselect>
+											#Trim(get_inventory.description)# (QTY: #Trim(get_inventory.on_hand_qty)#)
 										</div>		
 										<div class="col-sm-5">
 											&nbsp;
 										</div>									
 									</div>									
 								</div>	
-							</cfform>
-						</cfif>
-
-						<cfif Session.New_Sales_Page_Status EQ 10>
-							<cfset Session.New_Sales_Page_Status = 0>	
-
-							<cfform method=post action="add_new_sales.cfm">								
+													
 								<div class="content-wrap">
 
 									<div class="row">			
@@ -143,7 +126,7 @@
 											<strong>Sales Date:</strong>
 										</div>		
 										<div class="col-sm-5">
-											<cfinput name="sale_date" type="date" class="form-control">
+											<input name="sale_date" type="date" class="form-control" value="#DateFormat(get_sales.date_sold, "yyyy-mm-dd")#">
 										</div>	
 										<div class="col-sm-5">
 											&nbsp;
@@ -160,7 +143,7 @@
 											<strong>Price Sold:</strong>
 										</div>
 										<div class="col-sm-5">									
-											<cfinput name="price_sold" type="float" min="0" placeholder="Price Sold" class="form-control">
+											<cfinput name="price_sold" type="float" min="0" placeholder="Price Sold" value="#get_sales.sales_price#" class="form-control">
 										</div>		
 										<div class="col-sm-5">
 											&nbsp;
@@ -177,7 +160,7 @@
 											<strong>Quantity Sold:</strong>
 										</div>
 										<div class="col-sm-5">									
-											<cfinput name="quantity_sold" type="float" min="0" placeholder="Quantity Sold" class="form-control">
+											<cfinput name="quantity_sold" type="float" min="0" placeholder="Quantity Sold" value="#get_sales.qty_sold#" class="form-control">
 										</div>		
 										<div class="col-sm-5">
 											&nbsp;
@@ -196,7 +179,7 @@
 											<strong>Tax :</strong>
 										</div>
 										<div class="col-sm-5">									
-											<cfinput name="tax" type="float" min="0"  value="#Session.Tax_Rate#" class="form-control">
+											<cfinput name="tax" type="float" min="0"  value="#get_sales.tax_rate#" class="form-control">
 										</div>		
 										<div class="col-sm-5">
 											&nbsp;
@@ -217,7 +200,7 @@
 									  		<div class="d-flex">										  		
 										  		No&nbsp;&nbsp;
 										        <div class="form-switch form-switch form-switch-md">
-										            <input class="form-check-input" type="checkbox" name="collect_tax" id="flexSwitchCheckChecked">  	
+										            <input class="form-check-input" type="checkbox" name="collect_tax" id="flexSwitchCheckChecked" value="1" <cfif get_sales.collect_tax EQ 1>checked</cfif>>  	
 										        </div>
 										        <label for="site_state" class="form-check-label">&nbsp;&nbsp;Yes</label>
 									  		</div>									  						  	
@@ -240,7 +223,7 @@
 											<cfselect name="payment_method" size="1" class="form-select" id="bootstrap-select-filter">
 												<option value="0">- Select -</option>
 												<cfloop query="get_payment_method">
-													<option value="#Trim(get_payment_method.id)#">#Trim(get_payment_method.description)#</option>
+													<option value="#Trim(get_payment_method.id)#" <cfif get_payment_method.id EQ get_sales.payment_method>selected</cfif>>#Trim(get_payment_method.description)#</option>
 												</cfloop>										
 											</cfselect>
 										</div>		
@@ -262,7 +245,7 @@
 											<cfselect name="sales_location" size="1" class="form-select" id="bootstrap-select-filter">
 												<option value="0">- Select -</option>
 												<cfloop query="get_sales_location">
-													<option value="#Trim(get_sales_location.id)#">#Trim(get_sales_location.description)#</option>
+													<option value="#Trim(get_sales_location.id)#" <cfif get_sales_location.id EQ get_sales.sales_location>selected</cfif>>#Trim(get_sales_location.description)#</option>
 												</cfloop>										
 											</cfselect>
 										</div>		
@@ -281,7 +264,7 @@
 											<strong>Sales Note:</strong>
 										</div>
 										<div class="col-sm-5">
-											<cftextarea name="sales_note" cols="30" rows="5" placeholder="Add any notes about this sale here..." class="form-control"></cftextarea>											
+											<cftextarea name="sales_note" cols="30" rows="5" placeholder="Add any notes about this sale here..." class="form-control">#get_sales.sales_note#</cftextarea>											
 										</div>		
 										<div class="col-sm-5">
 											&nbsp;
@@ -295,15 +278,15 @@
 									</div>	
 									<div class="row">
 										<div class="col-sm-12">								
-											<cfinput type="submit" name="sales_step_1" value="Next" class="btn btn-primary">																														
+											<cfinput type="submit" name="edit_sales_step_1" value="Next" class="btn btn-primary">																														
 										</div>			  								
 									</div>								
 								</div>	
 							</cfform>
 						</cfif>
 
-						<cfif Session.New_Sales_Page_Status EQ 20>
-							<cfset Session.New_Sales_Page_Status = 0>	
+						<cfif Session.Edit_Sales_Item_Modal_Status EQ 10>
+							<cfset Session.Edit_Sales_Item_Modal_Status = 0>	
 
 							<cfset Good_Sale = 1>
 
@@ -363,16 +346,21 @@
 								</cfif>
 
 								<cfset Session.sales_db_uuid = rereplace(createuuid(),"-","","all")>
-								<cfquery name="save_sales" datasource="#DSN#">
-									insert into sales (id, inventory_id, date_sold, qty_sold, sales_price, tax_rate, revenue, sales_location, payment_method, total_cost, total_sales, collect_tax, sales_note)
-									values ('#Session.sales_db_uuid#', '#Session.New_Sales_Inventory_ID#', '#Session.Date_Sold#', '#Session.Quantity_Sold#', '#Session.Price_Sold#', '#Session.Tax_Rate#', '#Session.Total_Revenue#', 
-									'#Session.Sales_Location#', '#Session.Payment_Method#', '#Session.Total_Cost#', '#Session.Sub_Total_Revenue#', '#Session.collect_tax#', '#Session.Sales_Note#')																	
-								</cfquery>
-
-								<cfquery name="update_inventory" datasource="#DSN#">
-									update inventory
-									set on_hand_qty = on_hand_qty - #Session.Quantity_Sold#
-									where id = <cfqueryparam value="#Session.New_Sales_Inventory_ID#" cfsqltype="cf_sql_longvarchar" >
+								<cfquery name="update_sales" datasource="#DSN#">
+									update sales
+									set 
+										date_sold = '#Session.Date_Sold#',
+										qty_sold = '#Session.Quantity_Sold#',
+										sales_price = '#Session.Price_Sold#',
+										tax_rate = '#Session.Tax_Rate#',
+										revenue = '#Session.Total_Revenue#',
+										sales_location = '#Session.Sales_Location#',
+										payment_method = '#Session.Payment_Method#',
+										total_cost = '#Session.Total_Cost#',
+										total_sales = '#Session.Sub_Total_Revenue#',
+										collect_tax = '#Session.collect_tax#',
+										sales_note = '#Session.Sales_Note#'
+									where id = <cfqueryparam value="#Session.Edit_Sales_Item_ID#" cfsqltype="cf_sql_varchar">
 								</cfquery>
 
 								<div class="row">			
@@ -382,7 +370,7 @@
 								</div>	
 
 								<div class="alert alert-info" role="alert">
-									New Sale Added!
+									Sales details updated! Please review the updated information below. If you need to make additional changes, click the Edit Sale button again to update the sale details.
 								</div>
 
 								<div class="row">			
@@ -400,6 +388,18 @@
 									There was an issue with the sale details you entered. Please review the information and try again.	
 								</div>								
 							</cfif>
+						</cfif>
+
+						<cfif Session.Edit_Sales_Item_Modal_Status EQ 99>
+							<cfset Session.Edit_Sales_Item_Modal_Status = 0>
+							<div class="row">			
+								<div class="col-sm-12">
+									&nbsp;
+								</div>																	
+							</div>	
+							<div class="alert alert-danger" role="alert">
+								Item not found. Please try again.	
+							</div>	
 						</cfif>
 					</div>					
 				</div><!-- end .container -->

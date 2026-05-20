@@ -71,7 +71,7 @@
 								<div class="col-lg-3">																		
 									List Type: &nbsp;
 									<cfselect name="filter_type_value" size="1" onChange="loadPage(this)" class="form-select" id="bootstrap-select-filter">
-										<option value="list_management.cfm?id=9">- Select -</option>		          						
+										<option value="list_management.cfm?type_id=0">- Select -</option>		          						
 										<cfloop query="get_filter_type">
 											<option value="list_management.cfm?type_id=#Trim(get_filter_type.type)#" <cfif Trim(get_filter_type.type) EQ Session.filter_type>Selected</cfif>>#Trim(get_filter_type.type)#</option>
 										</cfloop> 

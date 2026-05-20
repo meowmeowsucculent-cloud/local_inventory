@@ -28,6 +28,22 @@
 			<cfset Session.Display_Filtered_Data = 1>
 			<CFPARAM NAME = "Session.Has_Expenses" default="0">
 
+			<cfif Not IsDefined("Session.filter_expense_type")>
+				<cfset Session.filter_expense_type = 0>
+			</cfif>
+
+			<cfif IsDefined("url.type_id")>
+				<cfset Session.filter_expense_type = url.type_id>	
+			</cfif>
+
+			<cfif Not IsDefined("Session.filter_expense_vendor")>
+				<cfset Session.filter_expense_vendor = 0>
+			</cfif>
+
+			<cfif IsDefined("url.type_vendor_id")>
+				<cfset Session.filter_expense_vendor = url.type_vendor_id>	
+			</cfif>
+
 			<cfoutput>
 		    <div id="content">
 		    	<div class="container-fluid">				
@@ -56,27 +72,59 @@
 						on lmp.id = e.payment_method and lmp.type = 'Payment Method'
 						inner join list_management lmc
 						on lmc.id = e.category and lmc.type = 'Expense'
+						<cfif Session.filter_expense_type NEQ 0>
+							where lmc.description = <cfqueryparam value="#Session.filter_expense_type#" cfsqltype="cf_sql_varchar">
+						</cfif>
+						<cfif Session.filter_expense_vendor NEQ 0>
+							where lme.description = <cfqueryparam value="#Session.filter_expense_vendor#" cfsqltype="cf_sql_varchar">
+						</cfif>
 						order by e.expense_date desc
 					</cfquery>
 					<cfif get_Expenses.recordcount GT 0>
 						<cfset Session.Has_Expenses = 1>
 					</cfif>
+
+					<cfquery name="get_filter_type" datasource="#DSN#">
+						select distinct lm.description
+						from expense e
+						inner join list_management lm
+						on e.category = lm.id
+						order by lm.description asc
+					</cfquery>
+
+					<cfquery name="get_filter_vendor" datasource="#DSN#">
+						select distinct lm.description
+						from expense e
+						inner join list_management lm
+						on e.vendor_payee = lm.id
+						order by lm.description asc
+					</cfquery>
 					
 					<div class="content-wrap">
 						<cfform action="manage_expenses.cfm" method="post" >
 		          			<div class="row class_table_heading">
-								<div class="col-lg-3">									
-									<!----
-									Fiscal Year: &nbsp;
-									<cfselect name="filter_year_value" size="1" onChange="loadPage(this)" class="form-select" id="bootstrap-select-filter">
-										<option value="manage_Expenses.cfm?id=9">- Select -</option>		          						
-										<cfloop query="get_FY">
-											<option value="manage_Expenses.cfm?id=#Trim(get_FY.id)#" <cfif Trim(get_FY.id) EQ Session.filter_year_manage_Expenses>Selected</cfif>>#Trim(get_FY.planning_year)#</option>
+								<div class="col-lg-3">
+									Expense Type: &nbsp;									
+									<cfselect name="filter_type_value" size="1" onChange="loadPage(this)" class="form-select" id="bootstrap-select-filter">
+										<option value="manage_expenses.cfm?type_id=9">- Select -</option>		          						
+										<option value="manage_expenses.cfm?type_id=0">- All -</option>	
+										<cfloop query="get_filter_type">
+											<option value="manage_expenses.cfm?type_id=#Trim(get_filter_type.description)#" <cfif Trim(get_filter_type.description) EQ Session.filter_expense_type>Selected</cfif>>#Trim(get_filter_type.description)#</option>
 										</cfloop> 
-									</cfselect>
-									--->
+									</cfselect>	
 								</div>																
-								<div class="col-lg-9 data_align_left">
+								
+								<div class="col-lg-3">
+									Vendor: &nbsp;									
+									<cfselect name="filter_type_vendor" size="1" onChange="loadPage(this)" class="form-select" id="bootstrap-select-filter">
+										<option value="manage_expenses.cfm?type_vendor_id=9">- Select -</option>		          						
+										<option value="manage_expenses.cfm?type_vendor_id=0">- All -</option>	
+										<cfloop query="get_filter_vendor">
+											<option value="manage_expenses.cfm?type_vendor_id=#Trim(get_filter_vendor.description)#" <cfif Trim(get_filter_vendor.description) EQ Session.filter_expense_vendor>Selected</cfif>>#Trim(get_filter_vendor.description)#</option>
+										</cfloop> 
+									</cfselect>	
+								</div>
+								<div class="col-lg-6 data_align_left">
 								</div>
 							</div>	
 							<div class="row">
@@ -146,7 +194,7 @@
 													#get_Expenses.payment_method#
 												</td>	
 												<td>
-													<cfif get_Expenses.receipt NEQ 1>
+													<cfif get_Expenses.receipt EQ 1>
 														Yes
 													<cfelse>
 														No
