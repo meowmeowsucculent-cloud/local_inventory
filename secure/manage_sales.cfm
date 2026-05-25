@@ -33,8 +33,8 @@
 				<cfset Session.filter_sales_location = 0>
 			</cfif>
 
-			<cfif IsDefined("url.type_id")>
-				<cfset Session.filter_sales_location = url.type_id>	
+			<cfif IsDefined("url.sales_location_id")>
+				<cfset Session.filter_sales_location = url.sales_location_id>	
 			</cfif>
 
 			<cfoutput>
@@ -89,10 +89,10 @@
 		          			<div class="row class_table_heading">
 								<div class="col-lg-3">									
 									Sales Location: &nbsp;									
-									<cfselect name="filter_type_value" size="1" onChange="loadPage(this)" class="form-select" id="bootstrap-select-filter">
-										<option value="manage_sales.cfm?type_id=0">- Select -</option>		          						
+									<cfselect name="filter_sale_location_value" size="1" onChange="loadPage(this)" class="form-select" id="bootstrap-select-filter">
+										<option value="manage_sales.cfm?sales_location_id=0">- Select -</option>		          						
 										<cfloop query="get_filter_type">
-											<option value="manage_sales.cfm?type_id=#Trim(get_filter_type.description)#" <cfif Trim(get_filter_type.description) EQ Session.filter_sales_location>Selected</cfif>>#Trim(get_filter_type.description)#</option>
+											<option value="manage_sales.cfm?sales_location_id=#Trim(get_filter_type.description)#" <cfif Trim(get_filter_type.description) EQ Session.filter_sales_location>Selected</cfif>>#Trim(get_filter_type.description)#</option>
 										</cfloop> 
 									</cfselect>	
 								</div>																
@@ -197,21 +197,6 @@
 		    </cfoutput>
 		    
 		    <!--- Modal --->
-
-			<div class="modal fade" id="edit_sales_modal" tabindex="-1" role="dialog" data-bs-backdrop="static" aria-labelledby="NewUserModalLabel" aria-hidden="true">
-				<div class="modal-dialog modal-xl modal-dialog-scrollable" role="dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="NewFacModalLabel">Edit Sales</h5>
-							<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close">
-							</button>
-						</div>
-						<div class="modal-body">
-							<cfinclude template="modal_edit_sales.cfm" >
-						</div>
-					</div><!-- /.modal-content -->
-				</div><!-- /.modal-dialog -->
-			</div><!-- /.modal -->		
 
 
 		    <cfinclude template="common_footer.cfm" >
