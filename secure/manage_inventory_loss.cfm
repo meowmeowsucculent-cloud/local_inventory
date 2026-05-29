@@ -37,10 +37,32 @@
 				      		<li><a href="index.cfm">Home</a></li>					      		
 				      		<li><a href="manage_inventory_loss.cfm">Manage Inventory Loss</a></li>					      	
 				      	</ol>
-				    </div>				
+				    </div>			
+
+					<cfif Not IsDefined("Session.filter_year_filter")>
+						<cfset Session.filter_year_filter = 0>					
+					</cfif>
+
+					<cfif IsDefined("URL.fy_filter_id")>
+						<cfset Session.filter_year_filter = URL.fy_filter_id>
+					</cfif>
 				
 					<cfquery name="get_inventory_loss" datasource="#DSN#">
-						select il.loss_date, il.qty_lost, lm.description, lmi.description as inventory_item
+						select il.loss_date, il.qty_lost, lm.description, lmi.description as inventory_item, i.plant_cost
+						from inventory_loss il
+						inner join list_management lm
+						on il.loss_code = lm.id and lm.type = 'Plant Loss'
+						inner join inventory i
+						on il.inventory_id = i.id
+						inner join list_management lmi
+						on i.category_id = lmi.id and lmi.type = 'Category'
+						<cfif Session.filter_year_filter NEQ 0>
+							where YEAR(il.loss_date) = <cfqueryparam cfsqltype="cf_sql_integer" value="#Session.filter_year_filter#">
+						</cfif>
+					</cfquery>
+
+					<cfquery name="get_fiscal_year" datasource="#DSN#">
+						select distinct YEAR(il.loss_date) as fy
 						from inventory_loss il
 						inner join list_management lm
 						on il.loss_code = lm.id and lm.type = 'Plant Loss'
@@ -49,23 +71,24 @@
 						inner join list_management lmi
 						on i.category_id = lmi.id and lmi.type = 'Category'
 					</cfquery>
+					
 					<cfif get_inventory_loss.recordcount GT 0>
 						<cfset Session.Has_Inventory_Loss = 1>
 					</cfif>
 					
 					<div class="content-wrap">
-						<cfform action="manage_inventory.cfm" method="post" >
+						<cfform action="manage_inventory_loss.cfm" method="post" >
 		          			<div class="row class_table_heading">
 								<div class="col-lg-3">									
-									<!----
+									
 									Fiscal Year: &nbsp;
 									<cfselect name="filter_year_value" size="1" onChange="loadPage(this)" class="form-select" id="bootstrap-select-filter">
-										<option value="manage_inventory.cfm?id=9">- Select -</option>		          						
-										<cfloop query="get_FY">
-											<option value="manage_inventory.cfm?id=#Trim(get_FY.id)#" <cfif Trim(get_FY.id) EQ Session.filter_year_manage_inventory>Selected</cfif>>#Trim(get_FY.planning_year)#</option>
+										<option value="manage_inventory_loss.cfm?fy_filter_id=0">- Select -</option>		          						
+										<cfloop query="get_fiscal_year">
+											<option value="manage_inventory_loss.cfm?fy_filter_id=#Trim(get_fiscal_year.fy)#" <cfif Trim(get_fiscal_year.fy) EQ Session.filter_year_filter>Selected</cfif>>#Trim(get_fiscal_year.fy)#</option>
 										</cfloop> 
 									</cfselect>
-									--->
+									
 								</div>																
 								<div class="col-lg-9 data_align_left">
 								</div>
@@ -81,6 +104,8 @@
 								</div>
 							</div>	         				 		          				
 	          			</cfform>
+
+						<cfset Session.Total_Loss = 0>
 	          			
 	          			<cfif Session.Display_Filtered_Data>
 	          				<cfif Session.Has_Inventory_Loss>
@@ -94,6 +119,9 @@
 										</th>
 										<th>
 											<strong>Qty Lost</strong>
+										</th>
+										<th>
+											<strong>Cost</strong>
 										</th>
 										<th>
 											<strong>Description</strong>
@@ -113,12 +141,20 @@
 													#get_inventory_loss.qty_lost#
 												</td>
 												<td>
+													#NumberFormat(get_inventory_loss.plant_cost, "$99,999.99")#
+													<cfset Session.Total_Loss = Session.Total_Loss + get_inventory_loss.plant_cost>
+												</td>
+												<td>
 													#get_inventory_loss.description#
 												</td>																				
 											</tr>
 										</cfloop> 
 									</tbody>
-								</table>									
+								</table>	
+
+								<p>
+									<strong>Total Loss: #NumberFormat(Session.Total_Loss, "$99,999.99")#</strong>
+								</p>
 							<cfelse>
 								<p>
 									There is no inventory loss to display

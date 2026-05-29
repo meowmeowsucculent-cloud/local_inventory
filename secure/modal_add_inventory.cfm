@@ -31,6 +31,7 @@
 								from list_management
 								where type = 'category'
 								and active = '1'
+								order by description
 							</cfquery>
 
 							<cfquery name="get_expense_category" datasource="#DSN#">
@@ -46,6 +47,7 @@
 								from list_management
 								where type = 'vendor'
 								and active = '1'
+								Order by description
 							</cfquery>
 
 							<cfquery name="get_payment_method" datasource="#DSN#">
@@ -53,6 +55,7 @@
 								from list_management
 								where type = 'payment method'
 								and active = '1'
+								Order by description
 							</cfquery>
 
 							<cfform method=post action="modal_add_inventory.cfm">								
