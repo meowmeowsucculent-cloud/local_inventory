@@ -54,7 +54,7 @@
 						</a>
 					</div>	
 				
-					<cfquery name="get_inventory" datasource="#DSN#">
+					<cfquery name="get_inventory" datasource="#Session.DSN#">
 						select i.*, lm.description, lm.type
 						from inventory i
 						inner join list_management lm

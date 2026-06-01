@@ -52,7 +52,7 @@
 						</a>
 					</div>	
 				
-					<cfquery name="get_items" datasource="#DSN#">
+					<cfquery name="get_items" datasource="#Session.DSN#">
 						select * from list_management
 						<cfif Session.filter_type NEQ 0>
 							where type = <cfqueryparam value="#Session.filter_type#" cfsqltype="cf_sql_varchar">
@@ -60,7 +60,7 @@
 						order by type, description
 					</cfquery>
 
-					<cfquery name="get_filter_type" datasource="#DSN#">
+					<cfquery name="get_filter_type" datasource="#Session.DSN#">
 						select distinct type from list_management
 						order by type asc
 					</cfquery>
@@ -175,6 +175,8 @@
 		    <cfinclude template="common_footer.cfm" >
 
 		    <cfinclude template="js.cfm" >
+
+		
 
 			<!----
 			<div class="row">

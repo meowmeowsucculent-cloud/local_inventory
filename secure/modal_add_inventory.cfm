@@ -26,7 +26,7 @@
 						<cfset GoodData = 1>
 												
 						<cfif GoodData>		
-							<cfquery name="get_plant_category" datasource="#DSN#">
+							<cfquery name="get_plant_category" datasource="#Session.DSN#">
 								select *
 								from list_management
 								where type = 'category'
@@ -34,7 +34,7 @@
 								order by description
 							</cfquery>
 
-							<cfquery name="get_expense_category" datasource="#DSN#">
+							<cfquery name="get_expense_category" datasource="#Session.DSN#">
 								select *
 								from list_management
 								where type = 'Expense'
@@ -42,7 +42,7 @@
 								Order by description
 							</cfquery>
 
-							<cfquery name="get_vendor" datasource="#DSN#">
+							<cfquery name="get_vendor" datasource="#Session.DSN#">
 								select *
 								from list_management
 								where type = 'vendor'
@@ -50,7 +50,7 @@
 								Order by description
 							</cfquery>
 
-							<cfquery name="get_payment_method" datasource="#DSN#">
+							<cfquery name="get_payment_method" datasource="#Session.DSN#">
 								select *
 								from list_management
 								where type = 'payment method'
@@ -357,7 +357,7 @@
 
 						<!--- Insert inventory --->
 						<cfset Session.inventory_db_uuid = rereplace(createuuid(),"-","","all")>
-						<cfquery name="insert_inventory" datasource="#DSN#">
+						<cfquery name="insert_inventory" datasource="#Session.DSN#">
 							insert into inventory 
 							(id, category_id, is_pre_inventory, is_purchased, is_propagated, on_hand_qty, plant_cost, shipping_cost, created_date, notes)
 							values 
@@ -365,7 +365,7 @@
 						</cfquery>
 
 						<cfset Session.expense_db_uuid = rereplace(createuuid(),"-","","all")>
-						<cfquery name="insert_expense" datasource="#DSN#">
+						<cfquery name="insert_expense" datasource="#Session.DSN#">
 							insert into expense
 							(id, expense_date, vendor_payee, category, description, payment_method, amount, receipt, notes, inventory_id)
 							values 

@@ -45,7 +45,12 @@
 							<li><a href="manage_inventory.cfm">Manage Inventory</a></li>
 							<li><a href="manage_inventory_loss.cfm">Manage Inventory Loss</a></li>
 							<li><a href="manage_sales.cfm">Manage Sales</a></li>					
-							<li><a href="list_management.cfm">List Management</a></li>	   				
+							<li><a href="list_management.cfm">List Management</a></li>	   
+							<cfif Session.mfa_auth_success  EQ 0>							
+								<li><a href="enable_mfa.cfm">Enable MFA</a></li>	
+							<cfelse>
+								<li><a href="disable_mfa.cfm">Disable MFA</a></li>
+							</cfif>
 						</ul>
 					</div>
 				</div>

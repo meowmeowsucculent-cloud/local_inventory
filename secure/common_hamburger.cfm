@@ -6,13 +6,14 @@
 					<span class="bi bi-list"></span>
 				</a>
 				<ul class="dropdown-menu">	
-					<li><a class="dropdown-item" href="index.cfm">Home</a></li>
-					<li><a href="annual_summary.cfm">Annual Summary</a></li>					
-					<li><a href="manage_expenses.cfm">Manage Expenses</a></li>
-					<li><a href="manage_inventory.cfm">Manage Inventory</a></li>
-					<li><a href="manage_inventory_loss.cfm">Manage Inventory Loss</a></li>
-					<li><a href="manage_sales.cfm">Manage Sales</a></li>					
-					<li><a href="list_management.cfm">List Management</a></li>	
+					<li><a class="dropdown-item" href="/index.cfm">Home</a></li>
+					<li><a href="/annual_summary.cfm">Annual Summary</a></li>					
+					<li><a href="/manage_expenses.cfm">Manage Expenses</a></li>
+					<li><a href="/manage_inventory.cfm">Manage Inventory</a></li>
+					<li><a href="/manage_inventory_loss.cfm">Manage Inventory Loss</a></li>
+					<li><a href="/manage_sales.cfm">Manage Sales</a></li>					
+					<li><a href="/list_management.cfm">List Management</a></li>	
+					<li><a href="/logout.cfm">Logout</a></li>	
 				</ul>
 			</li>
 		</ul>

@@ -1,6 +1,8 @@
 <cfoutput >
 			<!-----
 	https://www.srihash.org/
+
+	
 	---->
 
 	<cfset Session.Core_Shared_Elements = "/">
@@ -9,11 +11,16 @@
 	<!---- JS updated 8/23/22 ---->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js" integrity="sha512-n/4gHW3atM3QqRcbCn6ewmpxcLAHGaDjpEBu4xZd47N0W2oQ+6q7oc3PXstrJYXcbNU1OHdQ1T7pAP+gi5Yu8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	
+	<!----
+	DataTable init code is there (lines 201–222), so the JS is correct. The problem is a conflict between two DataTables bundles being loaded. Look at lines 12 and 13 — you are loading DataTables twice:
 	<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js" integrity="sha384-ZuLbSl+Zt/ry1/xGxjZPkp9P5MEDotJcsuoHT0cM8oWr+e1Ide//SZLebdVrzb2X" crossorigin="anonymous"></script>
+	---->
 	<script src="https://cdn.datatables.net/v/bs5/dt-1.12.1/b-2.2.3/b-colvis-2.2.3/b-html5-2.2.3/fh-3.2.4/r-2.3.0/datatables.min.js" integrity="sha512-UA3Lm33D82gyAIx+JNUTALBQr5Ke767E2imRf3jm4ZCc3R3gK3eeFofKOE/bNp2yLJWBRTRY/1CYwbmRgIJCLw==" crossorigin="anonymous"></script>
 
+	<!----
 	<script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js" integrity="sha384-h3oS/DGBfrFl5LZtSFk9RFU+pzHmURTX7+CFwAjm6QWSTdjwxCNgPIlzA/On5XBM" crossorigin="anonymous"></script>
 	<script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js" integrity="sha384-w6vYH0WKuBqvZ0+y9bbzGf8ia1T34eMpWbxYjCEpc+3NnCKAUsaAVbA50jrb3GWu" crossorigin="anonymous"></script>
+	---->
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js" integrity="sha384-v9EFJbsxLXyYar8TvBV8zu5USBoaOC+ZB57GzCmQiWfgDIjS+wANZMP5gjwMLwGv" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js" integrity="sha384-htFkmzBKFrwO7EbvHZPvJXWg0sJIkPPUTBDe6LXOU2ghApFVGQx9++EDSrKMZtHE" crossorigin="anonymous"></script>

@@ -13,7 +13,7 @@
 	<cfif IsDefined("url.id")>
 		<cfset GoodData = 1>
 		<cfset Session.Edit_Inventory_ID = Trim(url.id)>
-		<cfquery name="get_inventory" datasource="#DSN#">
+		<cfquery name="get_inventory" datasource="#Session.DSN#">
 			select i.*, lm.description, lm.type
 			from inventory i
 			inner join list_management lm
@@ -50,7 +50,7 @@
 						<cfset GoodData = 1>
 												
 						<cfif GoodData>		
-							<cfquery name="get_category" datasource="#DSN#">
+							<cfquery name="get_category" datasource="#Session.DSN#">
 								select *
 								from list_management
 								where type = 'category'
@@ -246,7 +246,7 @@
 
 						<!--- Update inventory --->
 						
-						<cfquery name="update_inventory" datasource="#DSN#">
+						<cfquery name="update_inventory" datasource="#Session.DSN#">
 							update inventory 
 							set category_id = '#Session.category#', is_pre_inventory = '#Session.is_pre_inventory#', is_purchased = '#Session.is_purchased#', is_propagated = '#Session.is_propagated#', 
 							on_hand_qty = '#Session.quantity#', plant_cost = '#Session.cost#', shipping_cost = '#Session.shipping#'

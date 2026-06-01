@@ -8,10 +8,13 @@
 		<cfset Session.Edit_List_Item_Modal_Status = 10>
 	</cfif>	
 
+	<CFPARAM NAME = "Session.type" DEFAULT = "">
+	<CFPARAM NAME = "Session.description" DEFAULT = "">
+
     <cfif IsDefined("url.id")>
 		<cfset GoodData = 1>
 		<cfset Session.Edit_Item_ID = Trim(url.id)>
-		<cfquery name="get_items" datasource="#DSN#">
+		<cfquery name="get_items" datasource="#Session.DSN#">
             select * from list_management
             where id = <cfqueryparam value="#Session.Edit_Item_ID#" cfsqltype="cf_sql_varchar">            
             order by type, description
@@ -25,8 +28,6 @@
 		</cfif>
 	</cfif>
 
-
-
 	<cflayout type="vbox" name="layout1">
 		<cflayoutarea overflow="hidden" >
 		<cfoutput >
@@ -37,7 +38,7 @@
 						<cfset GoodData = 1>
 												
 						<cfif GoodData>		
-							<cfquery name="get_type" datasource="#DSN#">
+							<cfquery name="get_type" datasource="#Session.DSN#">
 								select distinct type
 								from list_management	
                                 order by type asc							
@@ -114,7 +115,7 @@
 						<cfset Session.description = form.description>
 						<cfset Session.type = form.type>
 										
-						<cfquery name="update_item" datasource="#DSN#">
+						<cfquery name="update_item" datasource="#Session.DSN#">
 							update list_management
 							set type = '#Session.type#', description = '#Session.description#'
 							where id = <cfqueryparam value="#Session.Edit_Item_ID#" cfsqltype="cf_sql_varchar">  

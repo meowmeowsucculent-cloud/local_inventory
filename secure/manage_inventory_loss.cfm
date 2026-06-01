@@ -47,7 +47,7 @@
 						<cfset Session.filter_year_filter = URL.fy_filter_id>
 					</cfif>
 				
-					<cfquery name="get_inventory_loss" datasource="#DSN#">
+					<cfquery name="get_inventory_loss" datasource="#Session.DSN#">
 						select il.loss_date, il.qty_lost, lm.description, lmi.description as inventory_item, i.plant_cost
 						from inventory_loss il
 						inner join list_management lm
@@ -61,7 +61,7 @@
 						</cfif>
 					</cfquery>
 
-					<cfquery name="get_fiscal_year" datasource="#DSN#">
+					<cfquery name="get_fiscal_year" datasource="#Session.DSN#">
 						select distinct YEAR(il.loss_date) as fy
 						from inventory_loss il
 						inner join list_management lm

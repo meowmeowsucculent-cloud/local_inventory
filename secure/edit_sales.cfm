@@ -40,7 +40,7 @@
 				<cfset Session.Edit_Sales_Item_ID = Trim(url.id1)>
 				<cfif IsDefined("url.id2")>
 					<cfset Session.Edit_Sales_Inventory_ID = Trim(url.id2)>
-					<cfquery name="get_sales" datasource="#DSN#">
+					<cfquery name="get_sales" datasource="#Session.DSN#">
 						Select * from sales 
 						where id = <cfqueryparam value="#Session.Edit_Sales_Item_ID#" cfsqltype="cf_sql_varchar">	
 						and inventory_id = <cfqueryparam value="#Session.Edit_Sales_Inventory_ID#" cfsqltype="cf_sql_varchar" >	
@@ -66,7 +66,7 @@
 					
 					<div class="content-wrap">	
 
-						<cfquery name="get_inventory" datasource="#DSN#">
+						<cfquery name="get_inventory" datasource="#Session.DSN#">
 							select i.*, lm.description, lm.type
 							from inventory i
 							inner join list_management lm
@@ -76,7 +76,7 @@
 
 						<cfset Session.Max_QTY = get_inventory.on_hand_qty>
 				
-						<cfquery name="get_payment_method" datasource="#DSN#">
+						<cfquery name="get_payment_method" datasource="#Session.DSN#">
 							select *
 							from list_management
 							where type = 'payment method'
@@ -84,7 +84,7 @@
 							Order by description
 						</cfquery>		
 
-						<cfquery name="get_sales_location" datasource="#DSN#">
+						<cfquery name="get_sales_location" datasource="#Session.DSN#">
 							select *
 							from list_management
 							where type = 'sales location'
@@ -324,7 +324,7 @@
 
 							<cfif Good_Sale	>
 								<!--- This is where we would display the sales details form and allow the user to submit the new sale to the database. --->
-								<cfquery name="get_sales_info" datasource="#DSN#">
+								<cfquery name="get_sales_info" datasource="#Session.DSN#">
 									select i.*, lm.description, lm.type
 									from inventory i
 									inner join list_management lm
@@ -346,7 +346,7 @@
 								</cfif>
 
 								<cfset Session.sales_db_uuid = rereplace(createuuid(),"-","","all")>
-								<cfquery name="update_sales" datasource="#DSN#">
+								<cfquery name="update_sales" datasource="#Session.DSN#">
 									update sales
 									set 
 										date_sold = '#Session.Date_Sold#',

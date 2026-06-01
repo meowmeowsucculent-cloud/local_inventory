@@ -1,1 +1,1 @@
-<cfset DSN = "SQL_Main"> 
+<cfset application.DSN = "SQL_Main"> 

@@ -15,7 +15,7 @@
 		<cfset GoodData = 1>
 		<cfset Session.Edit_Inventory_Loss_ID = Trim(url.id)>
 
-		<cfquery name="get_inventory" datasource="#DSN#">
+		<cfquery name="get_inventory" datasource="#Session.DSN#">
 			select i.*, lm.description, lm.type
 			from inventory i
 			inner join list_management lm
@@ -50,7 +50,7 @@
 						<cfset GoodData = 1>
 												
 						<cfif GoodData>		
-							<cfquery name="get_loss_reason" datasource="#DSN#">
+							<cfquery name="get_loss_reason" datasource="#Session.DSN#">
 								select *
 								from list_management
 								where type = 'Plant Loss'
@@ -142,14 +142,14 @@
 
 						<!--- Update inventory --->
 						<cfset Session.db_uuid = rereplace(createuuid(),"-","","all")>
-						<cfquery name="save_loss" datasource="#dsn#">
+						<cfquery name="save_loss" datasource="#Session.DSN#">
 							insert into inventory_loss (id, inventory_id, loss_code, loss_date, qty_lost)
 							values ('#Session.db_uuid#', '#Session.Edit_Inventory_Loss_ID#', '#Session.inventory_loss_reason#', '#Session.DateNow#', '#Session.quantity#')
 						</cfquery>
 
 						<cfset Session.New_Quantity = Session.Current_Quantity - Session.quantity>
 
-						<cfquery name="update_inventory" datasource="#DSN#">
+						<cfquery name="update_inventory" datasource="#Session.DSN#">
 							update inventory 
 							set on_hand_qty = '#Session.New_Quantity#'
 							where id = <cfqueryparam value="#Session.Edit_Inventory_Loss_ID#" cfsqltype="cf_sql_longvarchar" >

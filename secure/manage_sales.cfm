@@ -56,7 +56,7 @@
 						</a>
 					</div>	
 				
-					<cfquery name="get_sales" datasource="#DSN#">
+					<cfquery name="get_sales" datasource="#Session.DSN#">
 						select s.id, s.date_sold, s.qty_sold, sales_price, s.tax_rate, s.revenue, lmi.description, lmsl.description as sales_location, lmpm.description as payment_method, s.inventory_id
 						from sales s
 						inner join inventory i
@@ -76,7 +76,7 @@
 						<cfset Session.Has_Sales = 1>
 					</cfif>
 
-					<cfquery name="get_filter_type" datasource="#DSN#">
+					<cfquery name="get_filter_type" datasource="#Session.DSN#">
 						select distinct lm.description
 						from sales s
 						inner join list_management lm

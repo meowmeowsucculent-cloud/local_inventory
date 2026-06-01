@@ -54,7 +54,7 @@
 					
 					<div class="content-wrap">	
 
-						<cfquery name="get_inventory" datasource="#DSN#">
+						<cfquery name="get_inventory" datasource="#Session.DSN#">
 							select i.*, lm.description, lm.type
 							from inventory i
 							inner join list_management lm
@@ -66,7 +66,7 @@
 
 						<cfset Session.Max_QTY = get_inventory.on_hand_qty>
 
-						<cfquery name="get_expense_category" datasource="#DSN#">
+						<cfquery name="get_expense_category" datasource="#Session.DSN#">
 							select *
 							from list_management
 							where type = 'Expense'
@@ -74,7 +74,7 @@
 							Order by description
 						</cfquery>
 
-						<cfquery name="get_vendor" datasource="#DSN#">
+						<cfquery name="get_vendor" datasource="#Session.DSN#">
 							select *
 							from list_management
 							where type = 'vendor'
@@ -82,7 +82,7 @@
 							Order by description
 						</cfquery>
 
-						<cfquery name="get_payment_method" datasource="#DSN#">
+						<cfquery name="get_payment_method" datasource="#Session.DSN#">
 							select *
 							from list_management
 							where type = 'payment method'
@@ -90,7 +90,7 @@
 							Order by description
 						</cfquery>		
 
-						<cfquery name="get_sales_location" datasource="#DSN#">
+						<cfquery name="get_sales_location" datasource="#Session.DSN#">
 							select *
 							from list_management
 							where type = 'sales location'
@@ -341,7 +341,7 @@
 
 							<cfif Good_Sale	>
 								<!--- This is where we would display the sales details form and allow the user to submit the new sale to the database. --->
-								<cfquery name="get_sales_info" datasource="#DSN#">
+								<cfquery name="get_sales_info" datasource="#Session.DSN#">
 									select i.*, lm.description, lm.type
 									from inventory i
 									inner join list_management lm
@@ -363,13 +363,13 @@
 								</cfif>
 
 								<cfset Session.sales_db_uuid = rereplace(createuuid(),"-","","all")>
-								<cfquery name="save_sales" datasource="#DSN#">
+								<cfquery name="save_sales" datasource="#Session.DSN#">
 									insert into sales (id, inventory_id, date_sold, qty_sold, sales_price, tax_rate, revenue, sales_location, payment_method, total_cost, total_sales, collect_tax, sales_note)
 									values ('#Session.sales_db_uuid#', '#Session.New_Sales_Inventory_ID#', '#Session.Date_Sold#', '#Session.Quantity_Sold#', '#Session.Price_Sold#', '#Session.Tax_Rate#', '#Session.Total_Revenue#', 
 									'#Session.Sales_Location#', '#Session.Payment_Method#', '#Session.Total_Cost#', '#Session.Sub_Total_Revenue#', '#Session.collect_tax#', '#Session.Sales_Note#')																	
 								</cfquery>
 
-								<cfquery name="update_inventory" datasource="#DSN#">
+								<cfquery name="update_inventory" datasource="#Session.DSN#">
 									update inventory
 									set on_hand_qty = on_hand_qty - #Session.Quantity_Sold#
 									where id = <cfqueryparam value="#Session.New_Sales_Inventory_ID#" cfsqltype="cf_sql_longvarchar" >

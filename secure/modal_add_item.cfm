@@ -18,7 +18,7 @@
 						<cfset GoodData = 1>
 												
 						<cfif GoodData>		
-							<cfquery name="get_type" datasource="#DSN#">
+							<cfquery name="get_type" datasource="#Session.DSN#">
 								select distinct type
 								from list_management	
                                 order by type asc							
@@ -96,7 +96,7 @@
 						<cfset Session.type = form.type>
 					
 						<cfset Session.item_db_uuid = rereplace(createuuid(),"-","","all")>
-						<cfquery name="insert_item" datasource="#DSN#">
+						<cfquery name="insert_item" datasource="#Session.DSN#">
 							insert into list_management
 							(id, type, description, active, created)
 							values 

@@ -10,11 +10,19 @@
 
 	<CFPARAM NAME = "Session.have_receipt" default="0">
 	<CFPARAM NAME = "Session.Edit_Expense_ID" default="0">
+	<CFPARAM NAME = "Session.expense_date" DEFAULT = "">
+	<CFPARAM NAME = "Session.category" DEFAULT = "">
+	<CFPARAM NAME = "Session.vendor" DEFAULT = "">
+	<CFPARAM NAME = "Session.payment_method" DEFAULT = "">
+	<CFPARAM NAME = "Session.description" DEFAULT = "">
+	<CFPARAM NAME = "Session.amount" DEFAULT = "">
+	<CFPARAM NAME = "Session.notes" DEFAULT = "">
+	<CFPARAM NAME = "Session.have_receipt" DEFAULT = "">
 
 	<cfif IsDefined("url.id")>
 		<cfset GoodData = 1>
 		<cfset Session.Edit_Expense_ID = Trim(url.id)>
-		<cfquery name="get_expense" datasource="#DSN#">
+		<cfquery name="get_expense" datasource="#Session.DSN#">
 			select e.id, e.expense_date, e.description as expense_desc, e.amount, e.receipt, e.notes, lme.description as payment_vendor, lmp.description as payment_method, e.inventory_id, lmc.description as expense_category
 			from expense e
 			inner join list_management lme
@@ -27,7 +35,7 @@
 		</cfquery>
 
 		<cfif Get_Expense.recordcount EQ 0>
-			<cfset Session.Edit_Expense_Modal_Status = 99>
+			<cfset Session.Edit_Expense_Modal_Status = 99>		>
 		<cfelse>
 			<cfset Session.expense_date = DateFormat(get_expense.expense_date, "YYYY-MM-DD")>
 			<cfset Session.category = get_expense.expense_category>	
@@ -51,7 +59,7 @@
 						<cfset GoodData = 1>
 												
 						<cfif GoodData>		
-							<cfquery name="get_expense_category" datasource="#DSN#">
+							<cfquery name="get_expense_category" datasource="#Session.DSN#">
 								select *
 								from list_management
 								where type = 'Expense'
@@ -59,7 +67,7 @@
 								Order by description
 							</cfquery>
 
-							<cfquery name="get_vendor" datasource="#DSN#">
+							<cfquery name="get_vendor" datasource="#Session.DSN#">
 								select *
 								from list_management
 								where type = 'vendor'
@@ -67,7 +75,7 @@
 								Order by description
 							</cfquery>
 
-							<cfquery name="get_payment_method" datasource="#DSN#">
+							<cfquery name="get_payment_method" datasource="#Session.DSN#">
 								select *
 								from list_management
 								where type = 'payment method'
@@ -89,7 +97,7 @@
 											<strong>Expense Date:</strong>
 										</div>		
 										<div class="col-sm-9">
-											<input name="expense_date" type="date" class="form-control" value="#DateFormat(get_expense.expense_date, "yyyy-mm-dd")#">
+											<input name="expense_date" type="date" class="form-control" value="#DateFormat(session.expense_date, "yyyy-mm-dd")#">
 										</div>																	
 									</div>	
 
@@ -269,7 +277,7 @@
 						<cfset Session.notes = Trim(form.notes)>
 					
 						<cfset Session.expense_db_uuid = rereplace(createuuid(),"-","","all")>
-						<cfquery name="update_expense" datasource="#DSN#">
+						<cfquery name="update_expense" datasource="#Session.DSN#">
 							update expense
 							set expense_date = '#Session.expense_date#',
 							vendor_payee = '#Session.vendor#',

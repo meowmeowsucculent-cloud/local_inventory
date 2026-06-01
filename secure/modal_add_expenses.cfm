@@ -21,7 +21,7 @@
 						<cfset GoodData = 1>
 												
 						<cfif GoodData>		
-							<cfquery name="get_expense_category" datasource="#DSN#">
+							<cfquery name="get_expense_category" datasource="#Session.DSN#">
 								select *
 								from list_management
 								where type = 'Expense'
@@ -29,7 +29,7 @@
 								Order by description
 							</cfquery>
 
-							<cfquery name="get_vendor" datasource="#DSN#">
+							<cfquery name="get_vendor" datasource="#Session.DSN#">
 								select *
 								from list_management
 								where type = 'vendor'
@@ -37,7 +37,7 @@
 								Order by description
 							</cfquery>
 
-							<cfquery name="get_payment_method" datasource="#DSN#">
+							<cfquery name="get_payment_method" datasource="#Session.DSN#">
 								select *
 								from list_management
 								where type = 'payment method'
@@ -239,7 +239,7 @@
 						<cfset Session.notes = Trim(form.notes)>
 					
 						<cfset Session.expense_db_uuid = rereplace(createuuid(),"-","","all")>
-						<cfquery name="insert_expense" datasource="#DSN#">
+						<cfquery name="insert_expense" datasource="#Session.DSN#">
 							insert into expense
 							(id, expense_date, vendor_payee, category, description, payment_method, amount, receipt, notes)
 							values 

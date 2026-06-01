@@ -67,7 +67,7 @@
 							</div>	         				 		          				
 	          			</cfform>
 
-						<cfquery name="get_expenses" datasource="#DSN#">
+						<cfquery name="get_expenses" datasource="#Session.DSN#">
 							select sum(e.amount) as total_expense
 							from expense e
 							inner join list_management lme
@@ -84,7 +84,7 @@
 							<cfset Session.total_expense = get_expenses.total_expense>
 						</cfif>
 
-						<cfquery name="get_sales" datasource="#DSN#">
+						<cfquery name="get_sales" datasource="#Session.DSN#">
 							select sum(s.sales_price) as total_sales
 							from sales s
 							inner join inventory i

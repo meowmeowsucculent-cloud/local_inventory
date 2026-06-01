@@ -53,7 +53,21 @@
 				<cfif form.auth_code EQ Session.Email_Code>
 					<cfset Session.User_Authenticated = 1>
 					<cfset Session.Login_Session = 1>
-					<cflocation url="../index.cfm" addtoken="false">
+
+					<cfquery name="is_MFA_on" datasource="#Session.DSN#">
+						select *
+						from mfa
+						Where active = '1'
+						and user_email = <cfqueryparam value="#Trim(Session.Email_Address)#" cfsqltype="cf_sql_varchar">
+					</cfquery>
+
+					<cfif is_MFA_on.recordcount EQ 1>
+						<cfset session.mfa_db_uuid = Trim(is_MFA_on.id)>
+						<cfset session.mfa_setup_email = Trim(is_MFA_on.user_email)>
+						<cflocation url="verify_mfa.cfm" addtoken="false">
+					<cfelse>
+						<cflocation url="../index.cfm" addtoken="false">
+					</cfif>
 				<cfelse>
 					<div class="alert alert-danger" role="alert">
 						The authentication code you entered is incorrect. Please try again.
@@ -68,6 +82,8 @@
 						<cfif Session.Login_Status EQ 0>
 							<cfset Session.Email_Code_Sent = 0>
 							<cfset Session.User_Authenticated = 0>
+							<cfset Session.mfa_auth_success = 0> 
+
 							<div class="alert alert-info" role="alert">
 								Click the button below to receive an authentication code via email. Please check your email and enter the code to log in.
 							</div>
@@ -84,7 +100,7 @@
 						</cfif>
 
 						<cfif Session.Login_Status EQ 10>												
-							<cfquery name="get_email_number" datasource="#dsn#">
+							<cfquery name="get_email_number" datasource="#Session.DSN#">
 								SELECT *
 								from auth_number
 							</cfquery>

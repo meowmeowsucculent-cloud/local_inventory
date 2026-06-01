@@ -63,7 +63,7 @@
 						</a>
 					</div>	
 				
-					<cfquery name="get_expenses" datasource="#DSN#">
+					<cfquery name="get_expenses" datasource="#Session.DSN#">
 						select e.id, e.expense_date, e.description as expense_desc, e.amount, e.receipt, e.notes, lme.description as payment_vendor, lmp.description as payment_method, e.inventory_id, lmc.description as expense_category
 						from expense e
 						inner join list_management lme
@@ -84,7 +84,7 @@
 						<cfset Session.Has_Expenses = 1>
 					</cfif>
 
-					<cfquery name="get_filter_type" datasource="#DSN#">
+					<cfquery name="get_filter_type" datasource="#Session.DSN#">
 						select distinct lm.description
 						from expense e
 						inner join list_management lm
@@ -92,7 +92,7 @@
 						order by lm.description asc
 					</cfquery>
 
-					<cfquery name="get_filter_vendor" datasource="#DSN#">
+					<cfquery name="get_filter_vendor" datasource="#Session.DSN#">
 						select distinct lm.description
 						from expense e
 						inner join list_management lm
@@ -201,7 +201,7 @@
 													</cfif>
 												<td>
 													<cfif get_Expenses.inventory_id NEQ "">
-														<cfquery name="get_Inventory_Item" datasource="#DSN#">
+														<cfquery name="get_Inventory_Item" datasource="#Session.DSN#">
 															select lm.description, lm.type
 															from inventory i
 															inner join list_management lm
