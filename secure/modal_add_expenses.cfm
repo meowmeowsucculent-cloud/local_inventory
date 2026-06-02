@@ -220,8 +220,8 @@
 									Close
 								</button>
 							</div>
-						</cfif>				
-					</cfif>
+						</cfif>	<!--- end if for GoodData--->		
+					</cfif> <!--- end if for status eq 0 --->
 
 					<cfif Session.Add_Expense_Modal_Status EQ 10>										
 						<cfset Session.Add_Expense_Modal_Status = 0>
@@ -240,10 +240,21 @@
 					
 						<cfset Session.expense_db_uuid = rereplace(createuuid(),"-","","all")>
 						<cfquery name="insert_expense" datasource="#Session.DSN#">
+
 							insert into expense
 							(id, expense_date, vendor_payee, category, description, payment_method, amount, receipt, notes)
 							values 
-							('#Session.expense_db_uuid#', '#Session.DateNow#', '#Session.vendor#', '#Session.category#', '#Session.description#', '#Session.payment_method#', '#Session.amount#', '#Session.have_receipt#', '#Session.notes#')
+							(
+							<cfqueryparam value="#Session.expense_db_uuid#" cfsqltype="cf_sql_longvarchar">,
+							<cfqueryparam value="#Session.expense_date#" cfsqltype="cf_sql_date">,
+							<cfqueryparam value="#Session.vendor#" cfsqltype="cf_sql_longvarchar">,
+							<cfqueryparam value="#Session.category#" cfsqltype="cf_sql_longvarchar">,
+							<cfqueryparam value="#Session.description#" cfsqltype="cf_sql_longvarchar">,
+							<cfqueryparam value="#Session.payment_method#" cfsqltype="cf_sql_longvarchar">,
+							<cfqueryparam value="#Session.amount#" cfsqltype="cf_sql_float">,
+							<cfqueryparam value="#Session.have_receipt#" cfsqltype="cf_sql_integer">,
+							<cfqueryparam value="#Session.notes#" cfsqltype="cf_sql_longvarchar">
+							)
 						</cfquery>
 
 						<div class="row">			

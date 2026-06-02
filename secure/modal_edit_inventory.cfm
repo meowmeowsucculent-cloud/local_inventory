@@ -248,8 +248,13 @@
 						
 						<cfquery name="update_inventory" datasource="#Session.DSN#">
 							update inventory 
-							set category_id = '#Session.category#', is_pre_inventory = '#Session.is_pre_inventory#', is_purchased = '#Session.is_purchased#', is_propagated = '#Session.is_propagated#', 
-							on_hand_qty = '#Session.quantity#', plant_cost = '#Session.cost#', shipping_cost = '#Session.shipping#'
+							set category_id = <cfqueryparam value="#Session.category#" cfsqltype="cf_sql_longvarchar">, 
+							is_pre_inventory = <cfqueryparam value="#Session.is_pre_inventory#" cfsqltype="cf_sql_integer">, 
+							is_purchased = <cfqueryparam value="#Session.is_purchased#" cfsqltype="cf_sql_integer">, 
+							is_propagated = <cfqueryparam value="#Session.is_propagated#" cfsqltype="cf_sql_integer">, 
+							on_hand_qty = <cfqueryparam value="#Session.quantity#" cfsqltype="cf_sql_float">, 
+							plant_cost = <cfqueryparam value="#Session.cost#" cfsqltype="cf_sql_float">, 
+							shipping_cost = <cfqueryparam value="#Session.shipping#" cfsqltype="cf_sql_float">
 							where id = <cfqueryparam value="#Session.Edit_Inventory_ID#" cfsqltype="cf_sql_longvarchar" >
 						</cfquery>
 

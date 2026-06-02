@@ -144,7 +144,13 @@
 						<cfset Session.db_uuid = rereplace(createuuid(),"-","","all")>
 						<cfquery name="save_loss" datasource="#Session.DSN#">
 							insert into inventory_loss (id, inventory_id, loss_code, loss_date, qty_lost)
-							values ('#Session.db_uuid#', '#Session.Edit_Inventory_Loss_ID#', '#Session.inventory_loss_reason#', '#Session.DateNow#', '#Session.quantity#')
+							values (
+								<cfqueryparam value="#Session.db_uuid#" cfsqltype="cf_sql_longvarchar">,
+								<cfqueryparam value="#Session.Edit_Inventory_Loss_ID#" cfsqltype="cf_sql_longvarchar">,
+								<cfqueryparam value="#Session.inventory_loss_reason#" cfsqltype="cf_sql_longvarchar">,
+								<cfqueryparam value="#Session.DateNow#" cfsqltype="cf_sql_date">,
+								<cfqueryparam value="#Session.quantity#" cfsqltype="cf_sql_integer">
+							)
 						</cfquery>
 
 						<cfset Session.New_Quantity = Session.Current_Quantity - Session.quantity>

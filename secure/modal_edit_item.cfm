@@ -117,7 +117,8 @@
 										
 						<cfquery name="update_item" datasource="#Session.DSN#">
 							update list_management
-							set type = '#Session.type#', description = '#Session.description#'
+							set type = <cfqueryparam value="#Session.type#" cfsqltype="cf_sql_varchar">, 
+							description = <cfqueryparam value="#Session.description#" cfsqltype="cf_sql_varchar">
 							where id = <cfqueryparam value="#Session.Edit_Item_ID#" cfsqltype="cf_sql_varchar">  
 						</cfquery>
 

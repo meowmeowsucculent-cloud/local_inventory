@@ -279,14 +279,14 @@
 						<cfset Session.expense_db_uuid = rereplace(createuuid(),"-","","all")>
 						<cfquery name="update_expense" datasource="#Session.DSN#">
 							update expense
-							set expense_date = '#Session.expense_date#',
-							vendor_payee = '#Session.vendor#',
-							category = '#Session.category#',	
-							description = '#Session.description#',
-							payment_method = '#Session.payment_method#',	
-							amount = '#Session.amount#',
-							receipt = '#Session.have_receipt#',	
-							notes = '#Session.notes#'
+							set expense_date = <cfqueryparam value="#Session.expense_date#" cfsqltype="cf_sql_date">,
+							vendor_payee = <cfqueryparam value="#Session.vendor#" cfsqltype="cf_sql_longvarchar">,
+							category = <cfqueryparam value="#Session.category#" cfsqltype="cf_sql_longvarchar">,	
+							description = <cfqueryparam value="#Session.description#" cfsqltype="cf_sql_longvarchar">,
+							payment_method = <cfqueryparam value="#Session.payment_method#" cfsqltype="cf_sql_longvarchar">,
+							amount = <cfqueryparam value="#Session.amount#" cfsqltype="cf_sql_float">,
+							receipt = <cfqueryparam value="#Session.have_receipt#" cfsqltype="cf_sql_integer">,
+							notes = <cfqueryparam value="#Session.notes#" cfsqltype="cf_sql_longvarchar">
 							where id = <cfqueryparam value="#Session.Edit_Expense_ID#" cfsqltype="cf_sql_longvarchar" >
 						</cfquery>
 

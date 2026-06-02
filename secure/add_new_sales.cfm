@@ -365,13 +365,26 @@
 								<cfset Session.sales_db_uuid = rereplace(createuuid(),"-","","all")>
 								<cfquery name="save_sales" datasource="#Session.DSN#">
 									insert into sales (id, inventory_id, date_sold, qty_sold, sales_price, tax_rate, revenue, sales_location, payment_method, total_cost, total_sales, collect_tax, sales_note)
-									values ('#Session.sales_db_uuid#', '#Session.New_Sales_Inventory_ID#', '#Session.Date_Sold#', '#Session.Quantity_Sold#', '#Session.Price_Sold#', '#Session.Tax_Rate#', '#Session.Total_Revenue#', 
-									'#Session.Sales_Location#', '#Session.Payment_Method#', '#Session.Total_Cost#', '#Session.Sub_Total_Revenue#', '#Session.collect_tax#', '#Session.Sales_Note#')																	
+									values (
+										<cfqueryparam value="#Session.sales_db_uuid#" cfsqltype="cf_sql_longvarchar">,
+										<cfqueryparam value="#Session.New_Sales_Inventory_ID#" cfsqltype="cf_sql_longvarchar">,
+										<cfqueryparam value="#Session.Date_Sold#" cfsqltype="cf_sql_date">,
+										<cfqueryparam value="#Session.Quantity_Sold#" cfsqltype="cf_sql_integer">,
+										<cfqueryparam value="#Session.Price_Sold#" cfsqltype="cf_sql_float">,
+										<cfqueryparam value="#Session.Tax_Rate#" cfsqltype="cf_sql_float">,
+										<cfqueryparam value="#Session.Total_Revenue#" cfsqltype="cf_sql_float">,
+										<cfqueryparam value="#Session.Sales_Location#" cfsqltype="cf_sql_varchar">,
+										<cfqueryparam value="#Session.Payment_Method#" cfsqltype="cf_sql_varchar">,
+										<cfqueryparam value="#Session.Total_Cost#" cfsqltype="cf_sql_float">,
+										<cfqueryparam value="#Session.Sub_Total_Revenue#" cfsqltype="cf_sql_float">,
+										<cfqueryparam value="#Session.collect_tax#" cfsqltype="cf_sql_integer">,
+										<cfqueryparam value="#Session.Sales_Note#" cfsqltype="cf_sql_longvarchar">
+									)																	
 								</cfquery>
 
 								<cfquery name="update_inventory" datasource="#Session.DSN#">
 									update inventory
-									set on_hand_qty = on_hand_qty - #Session.Quantity_Sold#
+									set on_hand_qty = on_hand_qty - <cfqueryparam value="#Session.Quantity_Sold#" cfsqltype="cf_sql_integer">
 									where id = <cfqueryparam value="#Session.New_Sales_Inventory_ID#" cfsqltype="cf_sql_longvarchar" >
 								</cfquery>
 

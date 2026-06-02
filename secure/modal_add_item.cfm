@@ -100,7 +100,13 @@
 							insert into list_management
 							(id, type, description, active, created)
 							values 
-							('#Session.item_db_uuid#', '#Session.type#', '#Session.description#', 1, '#Session.DateNow#')
+							(
+							<cfqueryparam value="#Session.item_db_uuid#" cfsqltype="cf_sql_longvarchar">,
+							<cfqueryparam value="#Session.type#" cfsqltype="cf_sql_longvarchar">,
+							<cfqueryparam value="#Session.description#" cfsqltype="cf_sql_longvarchar">,
+							<cfqueryparam value="1" cfsqltype="cf_sql_integer">,
+							<cfqueryparam value="#Session.DateNow#" cfsqltype="cf_sql_date">
+							)
 						</cfquery>
 
 						<div class="row">			

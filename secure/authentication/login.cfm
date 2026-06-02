@@ -117,12 +117,6 @@
 
 							<cfset Session.Email_Code = code>
 
-							<p>
-								Code sent to: #Session.Email_Address#
-								<br>
-								Code: #Session.Email_Code#
-							</p>
-
 							<cfmail from="meowmeowsucculent@gmail.com" subject="Auth Code" to="#Session.Email_Address#" type="html">
 								Your authentication code is: #Session.Email_Code#
 							</cfmail>	
