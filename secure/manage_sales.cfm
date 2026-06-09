@@ -26,24 +26,7 @@
 		    <cfinclude template="clear_data.cfm" >
 
 			<cfset Session.Display_Filtered_Data = 1>
-
-			<cfquery name="get_fiscal_year" datasource="#Session.DSN#">
-				select distinct YEAR(s.date_sold) as fy				
-				from sales s
-				inner join inventory i
-				on s.inventory_id = i.id
-				inner join list_management lmi
-				on i.category_id = lmi.id and lmi.type = 'category'
-				inner join list_management lmsl
-				on s.sales_location = lmsl.id and lmsl.type = 'Sales Location'
-				inner join list_management lmpm
-				on s.payment_method = lmpm.id and lmpm.type = 'Payment Method'
-				<cfif Session.filter_sales_location NEQ 0>
-					where lmsl.description = <cfqueryparam value="#Session.filter_sales_location#" cfsqltype="cf_sql_varchar">
-				</cfif>
-			</cfquery>
-
-			<cfset Session.Display_Filtered_Data = 1>
+		
 			<CFPARAM NAME = "Session.Has_Expenses" default="0">
 			<CFPARAM NAME = "Session.Sales_total" default="0">
 			<CFPARAM NAME = "Session.Sales_avg" default="0">
@@ -65,6 +48,23 @@
 			<cfif IsDefined("url.sales_location_id")>
 				<cfset Session.filter_sales_location = url.sales_location_id>	
 			</cfif>
+
+
+			<cfquery name="get_fiscal_year" datasource="#Session.DSN#">
+				select distinct YEAR(s.date_sold) as fy				
+				from sales s
+				inner join inventory i
+				on s.inventory_id = i.id
+				inner join list_management lmi
+				on i.category_id = lmi.id and lmi.type = 'category'
+				inner join list_management lmsl
+				on s.sales_location = lmsl.id and lmsl.type = 'Sales Location'
+				inner join list_management lmpm
+				on s.payment_method = lmpm.id and lmpm.type = 'Payment Method'
+				<cfif Session.filter_sales_location NEQ 0>
+					where lmsl.description = <cfqueryparam value="#Session.filter_sales_location#" cfsqltype="cf_sql_varchar">
+				</cfif>
+			</cfquery>
 
 			<cfoutput>
 		    <div id="content">

@@ -25,6 +25,28 @@
 		    
 		    <cfinclude template="clear_data.cfm" >
 
+			<cfset Session.Display_Filtered_Data = 1>
+			<CFPARAM NAME = "Session.Has_Expenses" default="0">
+			<CFPARAM NAME = "Session.Expense_total" default="0">
+			<CFPARAM NAME = "Session.Expense_avg" default="0">	
+
+			<cfif Not IsDefined("Session.filter_expense_type")>
+				<cfset Session.filter_expense_type = 0>
+			</cfif>
+
+			<cfif IsDefined("url.type_id")>
+				<cfset Session.filter_expense_type = url.type_id>	
+			</cfif>
+					
+
+			<cfif Not IsDefined("Session.filter_inventory")>
+				<cfset Session.filter_inventory = 0>
+			</cfif>
+
+			<cfif IsDefined("url.filter_type_value")>
+				<cfset Session.filter_inventory = url.filter_type_value>	
+			</cfif>
+
 			<cfquery name="get_fiscal_year" datasource="#Session.DSN#">
 				select distinct YEAR(i.created_date)  as fy
 				from inventory i
@@ -35,28 +57,7 @@
 				<cfif Session.filter_inventory EQ "OnHand">
 					and i.on_hand_qty > 0
 				</cfif>
-			</cfquery>
-
-			<cfset Session.Display_Filtered_Data = 1>
-			<CFPARAM NAME = "Session.Has_Expenses" default="0">
-			<CFPARAM NAME = "Session.Expense_total" default="0">
-			<CFPARAM NAME = "Session.Expense_avg" default="0">
-
-			<cfif Not IsDefined("Session.filter_expense_type")>
-				<cfset Session.filter_expense_type = 0>
-			</cfif>
-
-			<cfif IsDefined("url.type_id")>
-				<cfset Session.filter_expense_type = url.type_id>	
-			</cfif>
-
-			<cfif Not IsDefined("Session.filter_inventory")>
-				<cfset Session.filter_inventory = 0>
-			</cfif>
-
-			<cfif IsDefined("url.filter_type_value")>
-				<cfset Session.filter_inventory = url.filter_type_value>	
-			</cfif>
+			</cfquery>			
 
 			<cfoutput>
 		    <div id="content">
