@@ -25,8 +25,21 @@
 		    
 		    <cfinclude template="clear_data.cfm" >
 
+			<cfquery name="get_fiscal_year" datasource="#Session.DSN#">
+				select distinct YEAR(e.expense_date) as fy
+				from expense e
+				inner join list_management lme
+				on lme.id = e.vendor_payee and lme.type = 'Vendor'
+				inner join list_management lmp
+				on lmp.id = e.payment_method and lmp.type = 'Payment Method'
+				inner join list_management lmc
+				on lmc.id = e.category and lmc.type = 'Expense'
+			</cfquery>
+
 			<cfset Session.Display_Filtered_Data = 1>
 			<CFPARAM NAME = "Session.Has_Expenses" default="0">
+			<CFPARAM NAME = "Session.Expense_total" default="0">
+			<CFPARAM NAME = "Session.Expense_avg" default="0">
 
 			<cfif Not IsDefined("Session.filter_expense_type")>
 				<cfset Session.filter_expense_type = 0>
@@ -42,6 +55,14 @@
 
 			<cfif IsDefined("url.type_vendor_id")>
 				<cfset Session.filter_expense_vendor = url.type_vendor_id>	
+			</cfif>
+
+			<cfif Not IsDefined("Session.filter_year_filter")>
+				<cfset Session.filter_year_filter = 0>					
+			</cfif>
+
+			<cfif IsDefined("URL.fy_filter_id")>
+				<cfset Session.filter_year_filter = URL.fy_filter_id>
 			</cfif>
 
 			<cfoutput>
@@ -72,16 +93,43 @@
 						on lmp.id = e.payment_method and lmp.type = 'Payment Method'
 						inner join list_management lmc
 						on lmc.id = e.category and lmc.type = 'Expense'
+						Where 0=0
 						<cfif Session.filter_expense_type NEQ 0>
-							where lmc.description = <cfqueryparam value="#Session.filter_expense_type#" cfsqltype="cf_sql_varchar">
+							and lmc.description = <cfqueryparam value="#Session.filter_expense_type#" cfsqltype="cf_sql_varchar">
 						</cfif>
 						<cfif Session.filter_expense_vendor NEQ 0>
-							where lme.description = <cfqueryparam value="#Session.filter_expense_vendor#" cfsqltype="cf_sql_varchar">
+							and lme.description = <cfqueryparam value="#Session.filter_expense_vendor#" cfsqltype="cf_sql_varchar">
+						</cfif>
+						<cfif Session.filter_year_filter NEQ 0>
+							and YEAR(e.expense_date) = <cfqueryparam cfsqltype="cf_sql_integer" value="#Session.filter_year_filter#">
 						</cfif>
 						order by e.expense_date desc
 					</cfquery>
 					<cfif get_Expenses.recordcount GT 0>
 						<cfset Session.Has_Expenses = 1>
+						
+						<cfquery name="get_counts" datasource="#Session.DSN#">
+							select sum(e.amount) as exp_total, avg(e.amount) as exp_avg
+							from expense e
+							inner join list_management lme
+							on lme.id = e.vendor_payee and lme.type = 'Vendor'
+							inner join list_management lmp
+							on lmp.id = e.payment_method and lmp.type = 'Payment Method'
+							inner join list_management lmc
+							on lmc.id = e.category and lmc.type = 'Expense'
+							Where 0=0
+							<cfif Session.filter_expense_type NEQ 0>
+								and lmc.description = <cfqueryparam value="#Session.filter_expense_type#" cfsqltype="cf_sql_varchar">
+							</cfif>
+							<cfif Session.filter_expense_vendor NEQ 0>
+								and lme.description = <cfqueryparam value="#Session.filter_expense_vendor#" cfsqltype="cf_sql_varchar">
+							</cfif>
+							<cfif Session.filter_year_filter NEQ 0>
+								and YEAR(e.expense_date) = <cfqueryparam cfsqltype="cf_sql_integer" value="#Session.filter_year_filter#">
+							</cfif>							
+						</cfquery>
+						<cfset Session.Expense_total = get_counts.exp_total>
+						<cfset Session.Expense_avg = get_counts.exp_avg>	
 					</cfif>
 
 					<cfquery name="get_filter_type" datasource="#Session.DSN#">
@@ -124,7 +172,18 @@
 										</cfloop> 
 									</cfselect>	
 								</div>
-								<div class="col-lg-6 data_align_left">
+
+								<div class="col-lg-3">																	
+									Fiscal Year: &nbsp;
+									<cfselect name="filter_year_value" size="1" onChange="loadPage(this)" class="form-select" id="bootstrap-select-filter">
+										<option value="manage_expenses.cfm?fy_filter_id=0">- Select -</option>		          						
+										<cfloop query="get_fiscal_year">
+											<option value="manage_expenses.cfm?fy_filter_id=#Trim(get_fiscal_year.fy)#" <cfif Trim(get_fiscal_year.fy) EQ Session.filter_year_filter>Selected</cfif>>#Trim(get_fiscal_year.fy)#</option>
+										</cfloop> 
+									</cfselect>									
+								</div>	
+
+								<div class="col-lg-3 data_align_left">
 								</div>
 							</div>	
 							<div class="row">
@@ -224,6 +283,12 @@
 										</cfloop> 
 									</tbody>
 								</table>
+								<p>
+									&nbsp;
+								</p>	
+								<p>
+									<strong>Total Expenses:</strong> #DollarFormat(Session.Expense_total)# &nbsp; | &nbsp; <strong>Average Expense:</strong> #DollarFormat(Session.Expense_avg)#
+								</p>
 							<cfelse>
 								<p>
 									There is no Expenses to display

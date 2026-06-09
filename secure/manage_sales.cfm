@@ -27,6 +27,35 @@
 
 			<cfset Session.Display_Filtered_Data = 1>
 
+			<cfquery name="get_fiscal_year" datasource="#Session.DSN#">
+				select distinct YEAR(s.date_sold) as fy				
+				from sales s
+				inner join inventory i
+				on s.inventory_id = i.id
+				inner join list_management lmi
+				on i.category_id = lmi.id and lmi.type = 'category'
+				inner join list_management lmsl
+				on s.sales_location = lmsl.id and lmsl.type = 'Sales Location'
+				inner join list_management lmpm
+				on s.payment_method = lmpm.id and lmpm.type = 'Payment Method'
+				<cfif Session.filter_sales_location NEQ 0>
+					where lmsl.description = <cfqueryparam value="#Session.filter_sales_location#" cfsqltype="cf_sql_varchar">
+				</cfif>
+			</cfquery>
+
+			<cfset Session.Display_Filtered_Data = 1>
+			<CFPARAM NAME = "Session.Has_Expenses" default="0">
+			<CFPARAM NAME = "Session.Sales_total" default="0">
+			<CFPARAM NAME = "Session.Sales_avg" default="0">
+
+			<cfif Not IsDefined("Session.filter_expense_type")>
+				<cfset Session.filter_expense_type = 0>
+			</cfif>
+
+			<cfif IsDefined("url.type_id")>
+				<cfset Session.filter_expense_type = url.type_id>	
+			</cfif>
+
 			<CFPARAM NAME = "Session.Has_Sales" default="0">
 
 			<cfif Not IsDefined("Session.filter_sales_location")>
@@ -67,8 +96,12 @@
 						on s.sales_location = lmsl.id and lmsl.type = 'Sales Location'
 						inner join list_management lmpm
 						on s.payment_method = lmpm.id and lmpm.type = 'Payment Method'
+						Where 0=0
 						<cfif Session.filter_sales_location NEQ 0>
-							where lmsl.description = <cfqueryparam value="#Session.filter_sales_location#" cfsqltype="cf_sql_varchar">
+							and lmsl.description = <cfqueryparam value="#Session.filter_sales_location#" cfsqltype="cf_sql_varchar">
+						</cfif>
+						<cfif Session.filter_year_filter NEQ 0>
+							and YEAR(s.date_sold) = <cfqueryparam cfsqltype="cf_sql_integer" value="#Session.filter_year_filter#">
 						</cfif>
 						order by s.date_sold desc
 					</cfquery>
@@ -95,8 +128,19 @@
 											<option value="manage_sales.cfm?sales_location_id=#Trim(get_filter_type.description)#" <cfif Trim(get_filter_type.description) EQ Session.filter_sales_location>Selected</cfif>>#Trim(get_filter_type.description)#</option>
 										</cfloop> 
 									</cfselect>	
-								</div>																
-								<div class="col-lg-9 data_align_left">
+								</div>	
+
+								<div class="col-lg-3">																	
+									Fiscal Year: &nbsp;
+									<cfselect name="filter_year_value" size="1" onChange="loadPage(this)" class="form-select" id="bootstrap-select-filter">
+										<option value="manage_sales.cfm?fy_filter_id=0">- Select -</option>		          						
+										<cfloop query="get_fiscal_year">
+											<option value="manage_sales.cfm?fy_filter_id=#Trim(get_fiscal_year.fy)#" <cfif Trim(get_fiscal_year.fy) EQ Session.filter_year_filter>Selected</cfif>>#Trim(get_fiscal_year.fy)#</option>
+										</cfloop> 
+									</cfselect>									
+								</div>
+
+								<div class="col-lg-6 data_align_left">
 								</div>
 							</div>	
 							<div class="row">

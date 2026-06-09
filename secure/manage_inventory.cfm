@@ -25,7 +25,30 @@
 		    
 		    <cfinclude template="clear_data.cfm" >
 
+			<cfquery name="get_fiscal_year" datasource="#Session.DSN#">
+				select distinct YEAR(i.created_date)  as fy
+				from inventory i
+				inner join list_management lm
+				on i.category_id = lm.id and lm.type = 'category'
+				where lm.active = '1'
+				and lm.type = 'category'
+				<cfif Session.filter_inventory EQ "OnHand">
+					and i.on_hand_qty > 0
+				</cfif>
+			</cfquery>
+
 			<cfset Session.Display_Filtered_Data = 1>
+			<CFPARAM NAME = "Session.Has_Expenses" default="0">
+			<CFPARAM NAME = "Session.Expense_total" default="0">
+			<CFPARAM NAME = "Session.Expense_avg" default="0">
+
+			<cfif Not IsDefined("Session.filter_expense_type")>
+				<cfset Session.filter_expense_type = 0>
+			</cfif>
+
+			<cfif IsDefined("url.type_id")>
+				<cfset Session.filter_expense_type = url.type_id>	
+			</cfif>
 
 			<cfif Not IsDefined("Session.filter_inventory")>
 				<cfset Session.filter_inventory = 0>
@@ -64,6 +87,9 @@
 						<cfif Session.filter_inventory EQ "OnHand">
 							and i.on_hand_qty > 0
 						</cfif>
+						<cfif Session.filter_year_filter NEQ 0>
+							and YEAR(i.created_date) = <cfqueryparam cfsqltype="cf_sql_integer" value="#Session.filter_year_filter#">
+						</cfif>
 					</cfquery>
 
 					<cfif get_inventory.recordcount GT 0>
@@ -80,8 +106,19 @@
 										<option value="manage_inventory.cfm?filter_type_value=All" <cfif Session.filter_inventory EQ "All">selected</cfif>>All Inventory</option> 
 										<option value="manage_inventory.cfm?filter_type_value=OnHand" <cfif Session.filter_inventory EQ "OnHand">selected</cfif>>Only On Hand</option> 
 									</cfselect>	
-								</div>																
-								<div class="col-lg-9 data_align_left">
+								</div>	
+
+								<div class="col-lg-3">																	
+									Fiscal Year: &nbsp;
+									<cfselect name="filter_year_value" size="1" onChange="loadPage(this)" class="form-select" id="bootstrap-select-filter">
+										<option value="manage_inventory.cfm?fy_filter_id=0">- Select -</option>		          						
+										<cfloop query="get_fiscal_year">
+											<option value="manage_inventory.cfm?fy_filter_id=#Trim(get_fiscal_year.fy)#" <cfif Trim(get_fiscal_year.fy) EQ Session.filter_year_filter>Selected</cfif>>#Trim(get_fiscal_year.fy)#</option>
+										</cfloop> 
+									</cfselect>									
+								</div>
+
+								<div class="col-lg-6 data_align_left">
 								</div>
 							</div>	
 							<div class="row">

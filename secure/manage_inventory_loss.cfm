@@ -28,6 +28,25 @@
 			<cfset Session.Display_Filtered_Data = 1>
 			<CFPARAM NAME = "Session.Has_Inventory_Loss" default="0">
 
+			<cfquery name="get_fiscal_year" datasource="#Session.DSN#">
+				select distinct YEAR(il.loss_date) as fy
+				from inventory_loss il
+				inner join list_management lm
+				on il.loss_code = lm.id and lm.type = 'Plant Loss'
+				inner join inventory i
+				on il.inventory_id = i.id
+				inner join list_management lmi
+				on i.category_id = lmi.id and lmi.type = 'Category'
+			</cfquery>
+
+			<cfif Not IsDefined("Session.filter_year_filter")>
+				<cfset Session.filter_year_filter = 0>					
+			</cfif>
+
+			<cfif IsDefined("URL.fy_filter_id")>
+				<cfset Session.filter_year_filter = URL.fy_filter_id>
+			</cfif>
+
 			<cfoutput>
 		    <div id="content">
 		    	<div class="container-fluid">				
@@ -37,15 +56,7 @@
 				      		<li><a href="index.cfm">Home</a></li>					      		
 				      		<li><a href="manage_inventory_loss.cfm">Manage Inventory Loss</a></li>					      	
 				      	</ol>
-				    </div>			
-
-					<cfif Not IsDefined("Session.filter_year_filter")>
-						<cfset Session.filter_year_filter = 0>					
-					</cfif>
-
-					<cfif IsDefined("URL.fy_filter_id")>
-						<cfset Session.filter_year_filter = URL.fy_filter_id>
-					</cfif>
+				    </div>								
 				
 					<cfquery name="get_inventory_loss" datasource="#Session.DSN#">
 						select il.loss_date, il.qty_lost, lm.description, lmi.description as inventory_item, i.plant_cost
@@ -59,18 +70,7 @@
 						<cfif Session.filter_year_filter NEQ 0>
 							where YEAR(il.loss_date) = <cfqueryparam cfsqltype="cf_sql_integer" value="#Session.filter_year_filter#">
 						</cfif>
-					</cfquery>
-
-					<cfquery name="get_fiscal_year" datasource="#Session.DSN#">
-						select distinct YEAR(il.loss_date) as fy
-						from inventory_loss il
-						inner join list_management lm
-						on il.loss_code = lm.id and lm.type = 'Plant Loss'
-						inner join inventory i
-						on il.inventory_id = i.id
-						inner join list_management lmi
-						on i.category_id = lmi.id and lmi.type = 'Category'
-					</cfquery>
+					</cfquery>					
 					
 					<cfif get_inventory_loss.recordcount GT 0>
 						<cfset Session.Has_Inventory_Loss = 1>

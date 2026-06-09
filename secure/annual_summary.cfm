@@ -27,6 +27,25 @@
 
 			<cfset Session.Display_Filtered_Data = 1>
 
+			<cfquery name="get_fiscal_year" datasource="#Session.DSN#">
+				select distinct YEAR(e.expense_date) as fy
+				from expense e
+				inner join list_management lme
+				on lme.id = e.vendor_payee and lme.type = 'Vendor'
+				inner join list_management lmp
+				on lmp.id = e.payment_method and lmp.type = 'Payment Method'
+				inner join list_management lmc
+				on lmc.id = e.category and lmc.type = 'Expense'
+			</cfquery>
+
+			<cfif Not IsDefined("Session.filter_expense_type")>
+				<cfset Session.filter_expense_type = 0>
+			</cfif>
+
+			<cfif IsDefined("url.type_id")>
+				<cfset Session.filter_expense_type = url.type_id>	
+			</cfif>
+
 			<cfoutput>
 		    <div id="content">
 		    	<div class="container-fluid">				
@@ -41,16 +60,14 @@
 					<div class="content-wrap">
 						<cfform action="annual_summary.cfm" method="post" >
 		          			<div class="row class_table_heading">
-								<div class="col-lg-3">									
-									<!----
+								<div class="col-lg-3">																	
 									Fiscal Year: &nbsp;
 									<cfselect name="filter_year_value" size="1" onChange="loadPage(this)" class="form-select" id="bootstrap-select-filter">
-										<option value="an.cfm?id=9">- Select -</option>		          						
-										<cfloop query="get_FY">
-											<option value="annual_summary.cfm?id=#Trim(get_FY.id)#" <cfif Trim(get_FY.id) EQ Session.filter_year_manage_sales>Selected</cfif>>#Trim(get_FY.planning_year)#</option>
+										<option value="annual_summary.cfm?fy_filter_id=0">- Select -</option>		          						
+										<cfloop query="get_fiscal_year">
+											<option value="annual_summary.cfm?fy_filter_id=#Trim(get_fiscal_year.fy)#" <cfif Trim(get_fiscal_year.fy) EQ Session.filter_year_filter>Selected</cfif>>#Trim(get_fiscal_year.fy)#</option>
 										</cfloop> 
-									</cfselect>
-									--->
+									</cfselect>																	
 								</div>																
 								<div class="col-lg-9 data_align_left">
 								</div>
@@ -75,7 +92,11 @@
 							inner join list_management lmp
 							on lmp.id = e.payment_method and lmp.type = 'Payment Method'
 							inner join list_management lmc
-							on lmc.id = e.category and lmc.type = 'Expense'							
+							on lmc.id = e.category and lmc.type = 'Expense'	
+							Where 0=0	
+							<cfif Session.filter_year_filter NEQ 0>
+								and YEAR(e.expense_date) = <cfqueryparam cfsqltype="cf_sql_integer" value="#Session.filter_year_filter#">
+							</cfif>											
 						</cfquery>
 
 						<cfif Len(get_expenses.total_expense) EQ 0>
@@ -95,6 +116,10 @@
 							on s.sales_location = lmsl.id and lmsl.type = 'Sales Location'
 							inner join list_management lmpm
 							on s.payment_method = lmpm.id and lmpm.type = 'Payment Method'					
+							Where 0=0
+							<cfif Session.filter_year_filter NEQ 0>
+								and YEAR(s.date_sold) = <cfqueryparam cfsqltype="cf_sql_integer" value="#Session.filter_year_filter#">
+							</cfif>	
 						</cfquery>
 					
 						<cfif Len(get_sales.total_sales) EQ 0>
