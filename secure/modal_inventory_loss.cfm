@@ -10,6 +10,9 @@
 
 	<CFPARAM NAME = "Session.Edit_Inventory_Loss_ID" default="0">
 	<CFPARAM NAME = "Session.Current_Quantity" default="0">
+	<CFPARAM NAME = "Session.Inventory_description" default="0">
+
+	
 
 	<cfif IsDefined("url.id")>
 		<cfset GoodData = 1>
@@ -27,6 +30,7 @@
 
 		<cfif Get_Inventory.recordcount EQ 0>		
 			<cfset Session.Edit_Inventory_Loss_Modal_Status = 99>
+			<cfset Session.Inventory_description = get_inventory.description>
 		<cfelse>
 			<cfset Session.Current_Quantity = get_inventory.on_hand_qty>
 		</cfif>
@@ -67,7 +71,7 @@
 
 									<div class="row">			
 										<div class="col-sm-12">
-											<strong>Inventory Item:</strong> #get_inventory.description#
+											<strong>Inventory Item:</strong> #Session.Inventory_description#
 										</div>																	
 									</div>	
 

@@ -121,7 +121,10 @@
 											<strong>Qty Lost</strong>
 										</th>
 										<th>
-											<strong>Cost</strong>
+											<strong>Individual Cost</strong>
+										</th>
+										<th>
+											<strong>Total Loss</strong>
 										</th>
 										<th>
 											<strong>Description</strong>
@@ -141,8 +144,11 @@
 													#get_inventory_loss.qty_lost#
 												</td>
 												<td>
-													#NumberFormat(get_inventory_loss.plant_cost, "$99,999.99")#
-													<cfset Session.Total_Loss = Session.Total_Loss + get_inventory_loss.plant_cost>
+													#NumberFormat(get_inventory_loss.plant_cost, "$99,999.99")#													
+												</td>
+												<td>
+													#NumberFormat(get_inventory_loss.plant_cost * get_inventory_loss.qty_lost, "$99,999.99")#
+													<cfset Session.Total_Loss = Session.Total_Loss + (get_inventory_loss.plant_cost * get_inventory_loss.qty_lost)>
 												</td>
 												<td>
 													#get_inventory_loss.description#
